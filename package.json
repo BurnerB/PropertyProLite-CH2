@@ -1,0 +1,39 @@
+{
+  "name": "propertyprolite-ch2",
+  "version": "1.0.0",
+  "description": "Property Pro Lite is a platform where people can create and/or search properties for sale or rent.",
+  "main": "app.js",
+  "scripts": {
+    "start": " nodemon --exec babel-node app.js",
+    "test": "mocha --require @babel/register ./server/tests/*.js  --timeout 150000 --exit",
+    "build": "babel src -d lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BurnerB/PropertyProLite-CH2.git"
+  },
+  "author": "BurnerB",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BurnerB/PropertyProLite-CH2/issues"
+  },
+  "homepage": "https://github.com/BurnerB/PropertyProLite-CH2#readme",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.18.0",
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.1"
+  }
+}
