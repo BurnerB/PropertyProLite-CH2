@@ -2,7 +2,7 @@
   "name": "propertyprolite-ch2",
   "version": "1.0.0",
   "description": "Property Pro Lite is a platform where people can create and/or search properties for sale or rent.",
-  "main": "app.js",
+  "main": "app166856512.js",
   "scripts": {
     "start": " nodemon --exec babel-node app.js",
     "test": "mocha --require @babel/register ./server/tests/*.js  --timeout 150000 --exit",
