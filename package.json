@@ -6,7 +6,7 @@
   "scripts": {
     "start": " nodemon --exec babel-node app.js",
     "test": "mocha --require @babel/register ./server/tests/*.js  --timeout 150000 --exit",
-    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls ",
+    "coveralls": "coveralls ",
     "build": "babel src -d lib"
   },
   "repository": {
