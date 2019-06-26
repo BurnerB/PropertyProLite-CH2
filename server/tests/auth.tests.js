@@ -15,7 +15,7 @@ describe('/Authen', () => {
           firstname: 'John',
           lastname: 'Ndomimi',
           password: 'abu1234',
-          phoneNumber: '+254700000000',
+          phoneNumber: '0700000000',
           address: 'Kenya',
         })
         .end((err, res) => {
@@ -33,7 +33,7 @@ describe('/Authen', () => {
           firstname: 'John',
           lastname: 'Doe',
           password: 'abu1234',
-          phoneNumber: '+254700000000',
+          phoneNumber: '0700000000',
           address: 'Kenya',
         })
         .end((err, res) => {
@@ -51,7 +51,7 @@ describe('/Authen', () => {
           firstname: '',
           lastname: 'Doe',
           password: 'abu1234',
-          phoneNumber: '+254700000000',
+          phoneNumber: '0700000000',
           address: 'Kenya',
         })
         .end((err, res) => {
@@ -69,7 +69,7 @@ describe('/Authen', () => {
           firstname: 'John',
           lastname: '',
           password: 'abu1234',
-          phoneNumber: '+254700000000',
+          phoneNumber: '0700000000',
           address: 'Kenya',
         })
         .end((err, res) => {
@@ -87,7 +87,7 @@ describe('/Authen', () => {
           firstname: 'John',
           lastname: 'Doe',
           password: '',
-          phoneNumber: '+254700000000',
+          phoneNumber: '0700000000',
           address: 'Kenya',
         })
         .end((err, res) => {
@@ -123,7 +123,7 @@ describe('/Authen', () => {
           firstname: 'John',
           lastname: 'Doe',
           password: 'abu1234',
-          phoneNumber: '+254700000000',
+          phoneNumber: '0700000000',
           address: '',
         })
         .end((err, res) => {
@@ -141,7 +141,7 @@ describe('/Authen', () => {
           firstname: 'John',
           lastname: 'Ndomimi',
           password: 'abu1234',
-          phoneNumber: '+254700000000',
+          phoneNumber: '0700000000',
           address: 'Kenya',
         })
         .end((err, res) => {
@@ -159,7 +159,7 @@ describe('/Authen', () => {
           firstname: 'John',
           lastname: 'Ndomimi',
           password: 'abu1234',
-          phoneNumber: '+254700000000',
+          phoneNumber: '0700000000',
           address: 'Kenya',
         })
         .end((err, res) => {
@@ -177,7 +177,7 @@ describe('/Authen', () => {
           firstname: 'John123',
           lastname: 'Ndomimi',
           password: 'abu1234',
-          phoneNumber: '+254700000000',
+          phoneNumber: '0700000000',
           address: 'Kenya',
         })
         .end((err, res) => {
@@ -195,7 +195,7 @@ describe('/Authen', () => {
           firstname: 'John',
           lastname: 'Ndomimi1',
           password: 'abu1234',
-          phoneNumber: '+254700000000',
+          phoneNumber: '0700000000',
           address: 'Kenya',
         })
         .end((err, res) => {
@@ -213,7 +213,7 @@ describe('/Authen', () => {
           firstname: 'John123',
           lastname: 'Ndomimi',
           password: 'abu12340000000000000000000',
-          phoneNumber: '+254700000000',
+          phoneNumber: '0700000000',
           address: 'Kenya',
         })
         .end((err, res) => {
