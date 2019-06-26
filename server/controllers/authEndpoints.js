@@ -36,10 +36,10 @@ class Authentication {
       });
 
       if (!await newUser.registerUser()) {
-        res.status(400)
+        res.status(409)
           .json({
             status: 'error',
-            data: 'The email has already been used to register' 
+            data: 'The email has already been used to register',
           });
         return;
       }
