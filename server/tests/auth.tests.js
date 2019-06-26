@@ -29,7 +29,7 @@ describe('/Authen', () => {
       chai.request(app)
         .post('/api/v1/auth/signup')
         .send({
-          email: '',
+          email: ' ',
           firstname: 'John',
           lastname: 'Doe',
           password: 'abu1234',
@@ -37,7 +37,7 @@ describe('/Authen', () => {
           address: 'Kenya',
         })
         .end((err, res) => {
-          res.should.have.status(201);
+          res.should.have.status(400);
           if (err) return done();
           done();
         });
@@ -143,6 +143,114 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '+254700000000',
           address: 'Kenya',
+        })
+        .end((err, res) => {
+          res.should.have.status(409);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should check if the email is valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          email: 'johndoegmail.com',
+          firstname: 'John',
+          lastname: 'Ndomimi',
+          password: 'abu1234',
+          phoneNumber: '+254700000000',
+          address: 'Kenya',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should check if the firstname is valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          email: 'johndoegmail.com',
+          firstname: 'John123',
+          lastname: 'Ndomimi',
+          password: 'abu1234',
+          phoneNumber: '+254700000000',
+          address: 'Kenya',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should check if the lastname is valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          email: 'johndoegmail.com',
+          firstname: 'John',
+          lastname: 'Ndomimi1',
+          password: 'abu1234',
+          phoneNumber: '+254700000000',
+          address: 'Kenya',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should check if the password is valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          email: 'johndoegmail.com',
+          firstname: 'John123',
+          lastname: 'Ndomimi',
+          password: 'abu12340000000000000000000',
+          phoneNumber: '+254700000000',
+          address: 'Kenya',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should check if the phonenumber is valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          email: 'johndoegmail.com',
+          firstname: 'John123',
+          lastname: 'Ndomimi',
+          password: 'abu1234',
+          phoneNumber: '+25470000ad00',
+          address: 'Kenya',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should check if the address is valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          email: 'johndoegmail.com',
+          firstname: 'John123',
+          lastname: 'Ndomimi',
+          password: 'abu1234',
+          phoneNumber: '+25470000ad00',
+          address: '@#4',
         })
         .end((err, res) => {
           res.should.have.status(400);
