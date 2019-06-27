@@ -293,7 +293,7 @@ describe('/Authen', () => {
         .post('/api/v1/login')
         .send({
           email: 'johndoe@gmail.com',
-          password: ' ',
+          password: '',
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -310,7 +310,7 @@ describe('/Authen', () => {
           password: 'abu1200',
         })
         .end((err, res) => {
-          res.should.have.status(401);
+          res.should.have.status(400);
           if (err) return done();
           done();
         });
