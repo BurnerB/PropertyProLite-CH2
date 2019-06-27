@@ -117,6 +117,39 @@ class Validations {
       console.log(e);
     }
   }
+
+  static async validateLogin(req, res, next) {
+    try {
+      const schema = {
+        email: Joi.string().email({ minDomainSegments: 2 }).required(),
+        password: Joi .string().min(5).regex(/^[a-zA-Z0-9]*$/).required()
+          .error((errors) => {
+            errors.forEach((err) => {
+              switch (err.type) {
+                case 'any.empty':
+                  err.message = 'password should not be empty!';
+                  break;
+                case 'string.min':
+                  err.message = `password should have at least ${err.context.limit} characters!`;
+                  break;
+                case 'string.regex.base':
+                  err.message = 'password must contain only alphabets and numbers, no special characters';
+                  break;
+                default:
+                  break;
+              }
+            });
+            return errors;
+          }),
+      };
+      const { error } = Joi.validate(req.body, schema);
+
+      if (error) return res.status(400).send(error.details[0].message);
+      next();
+    } catch(e) {
+      console.log(e);
+    }
+  }
 }
 
 export default Validations;
