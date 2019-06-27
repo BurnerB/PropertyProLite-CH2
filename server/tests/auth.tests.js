@@ -310,7 +310,7 @@ describe('/Authen', () => {
           password: 'abu1200',
         })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(401);
           if (err) return done();
           done();
         });
