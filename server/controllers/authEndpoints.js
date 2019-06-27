@@ -68,7 +68,7 @@ class Authentication {
                         .json({ status: 'success',
                                 data:'successfully logged in!'});
                     return;
-        }res.status(400)
+        }res.status(401)
             .json({ status: 'Error',
                     data:'Incorrect password'});
           return;
