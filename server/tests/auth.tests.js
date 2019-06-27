@@ -259,4 +259,103 @@ describe('/Authen', () => {
         });
     });
   });
+  describe('/POST login', () => {
+    it('should successfully login user', (done) => {
+      chai.request(app)
+        .post('/api/v1/login')
+        .send({
+          email: 'johndoe@gmail.com',
+          password: 'abu1234',
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not login user without email', (done) => {
+      chai.request(app)
+        .post('/api/v1/login')
+        .send({
+          email: ' ',
+          password: 'abu1234',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not login user without password', (done) => {
+      chai.request(app)
+        .post('/api/v1/login')
+        .send({
+          email: 'johndoe@gmail.com',
+          password: ' ',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not login user with mismatch password', (done) => {
+      chai.request(app)
+        .post('/api/v1/login')
+        .send({
+          email: 'johndoe@gmail.com',
+          password: 'abu1200',
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not login user not registered', (done) => {
+      chai.request(app)
+        .post('/api/v1/login')
+        .send({
+          email: 'janedoe@gmail.com',
+          password: 'abu1234',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should check if email is valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/login')
+        .send({
+          email: 'janedoegmail.com',
+          password: 'abu1234',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should check if password is valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/login')
+        .send({
+          email: 'janedoegmail.com',
+          password: 'abu1234000000000000000',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+  });
 });
