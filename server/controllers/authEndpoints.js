@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import bcrypt from 'bcrypt';
 import UserModel from '../models/userModel';
 import db from '../db/users';
@@ -55,6 +56,33 @@ class Authentication {
       res.status(500);
     }
   }
+  static async userLogin(req, res,){
+		try {
+			const { email, password } = req.body;
+			const user = new UserModel(email);
+
+			if (await user.findbyEmail()) {
+
+				if(bcrypt.compareSync(password, user.result.password)) {
+				    res.status(200)
+                        .json({ status: 'success',
+                                data:'successfully logged in!'});
+                    return;
+        }res.status(400)
+            .json({ status: 'Error',
+                    data:'Incorrect password'});
+          return;
+			}res.status(400)
+                .json({ status: 'Error',
+                        data:'email not found sign up to create an account'});
+                return;
+		}catch (e) {			
+            console.log(e);
+            res.status(500);
+            return;
+	
+		}
+  };
 }
 
 export default Authentication;
