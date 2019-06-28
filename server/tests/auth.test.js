@@ -262,7 +262,7 @@ describe('/Authen', () => {
   describe('/POST login', () => {
     it('should successfully login user', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/auth/login')
         .send({
           email: 'johndoe@gmail.com',
           password: 'abu1234',
@@ -276,7 +276,7 @@ describe('/Authen', () => {
 
     it('should not login user without email', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/auth/login')
         .send({
           email: ' ',
           password: 'abu1234',
@@ -290,7 +290,7 @@ describe('/Authen', () => {
 
     it('should not login user without password', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/auth/login')
         .send({
           email: 'johndoe@gmail.com',
           password: '',
@@ -304,7 +304,7 @@ describe('/Authen', () => {
 
     it('should not login user with mismatch password', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/auth/login')
         .send({
           email: 'johndoe@gmail.com',
           password: 'abu1200',
@@ -318,7 +318,7 @@ describe('/Authen', () => {
 
     it('should not login user not registered', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/auth/login')
         .send({
           email: 'janedoe@gmail.com',
           password: 'abu1234',
@@ -332,7 +332,7 @@ describe('/Authen', () => {
 
     it('should check if email is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/auth/login')
         .send({
           email: 'janedoegmail.com',
           password: 'abu1234',
@@ -346,7 +346,7 @@ describe('/Authen', () => {
 
     it('should check if password is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/login')
+        .post('/api/v1/auth/login')
         .send({
           email: 'janedoegmail.com',
           password: 'abu1234000000000000000',
