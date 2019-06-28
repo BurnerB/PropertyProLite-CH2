@@ -122,7 +122,7 @@ class Validations {
     try {
       const schema = {
         email: Joi.string().email({ minDomainSegments: 2 }).required(),
-        password: Joi .string().min(5).regex(/^[a-zA-Z0-9]*$/).required()
+        password: Joi.string().min(5).regex(/^[a-zA-Z0-9]*$/).required()
           .error((errors) => {
             errors.forEach((err) => {
               switch (err.type) {
@@ -146,10 +146,29 @@ class Validations {
 
       if (error) return res.status(400).send(error.details[0].message);
       next();
-    } catch(e) {
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  static async validateProperty(req, res, next) {
+    try {
+      const schema = {
+        status: Joi.string().required(),
+        type: Joi.string().required(),
+        state: Joi.string().required(),
+        city: Joi.string().required(),
+        price: Joi.number().required(),
+        address: Joi.string().required(),
+        image_url: Joi.string().required(),
+      };
+      const { error } = Joi.validate(req.body, schema);
+
+      if (error) return res.status(400).send(error.details[0].message);
+      next();
+    } catch (e) {
       console.log(e);
     }
   }
 }
-
 export default Validations;
