@@ -11,7 +11,6 @@ describe('/PROPERTY', () => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
-          owner: 'BurnerB',
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
@@ -26,32 +25,11 @@ describe('/PROPERTY', () => {
           done();
         });
     });
-
-    it('should not post an property advert with missing owner', (done) => {
-      chai.request(app)
-        .post('/api/v1/property')
-        .send({
-          owner: 'BurnerB',
-          status: 'Available',
-          price: 5000000,
-          state: 'Nairobi',
-          city: 'Nairobi City',
-          address: 'Kenya',
-          type: '2 bedroom',
-          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          if (err) return done();
-          done();
-        });
-    });
-
+    
     it('should not  post an property advert with missing status', (done) => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
-          owner: 'BurnerB',
           status: '',
           price: 5000000,
           state: 'Nairobi',
@@ -71,7 +49,6 @@ describe('/PROPERTY', () => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
-          owner: 'BurnerB',
           status: 'Available',
           price: '',
           state: 'Nairobi',
@@ -91,7 +68,6 @@ describe('/PROPERTY', () => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
-          owner: 'BurnerB',
           status: 'Available',
           price: 5000000,
           state: '',
@@ -111,7 +87,6 @@ describe('/PROPERTY', () => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
-          owner: 'BurnerB',
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
@@ -131,7 +106,6 @@ describe('/PROPERTY', () => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
-          owner: 'BurnerB',
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
@@ -151,7 +125,6 @@ describe('/PROPERTY', () => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
-          owner: 'BurnerB',
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
@@ -171,7 +144,6 @@ describe('/PROPERTY', () => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
-          owner: 'BurnerB',
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
