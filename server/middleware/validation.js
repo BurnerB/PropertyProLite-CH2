@@ -7,102 +7,27 @@ class Validations {
       const schema = {
         firstname: Joi.string().min(3).max(15).regex(/^[a-zA-Z]*$/)
           .required()
-          .error((errors) => {
-            errors.forEach((err) => {
-              switch (err.type) {
-                case 'any.empty':
-                  err.message = 'firstName should not be empty!';
-                  break;
-                case 'string.min':
-                  err.message = `firstName should have at least ${err.context.limit} characters!`;
-                  break;
-                case 'string.max':
-                  err.message = `firstName should have at most ${err.context.limit} characters!`;
-                  break;
-                case 'string.regex.base':
-                  err.message = 'firstName must be a word with no special characters';
-                  break;
-                default:
-                  break;
-              }
-            });
-            return errors;
-          }),
+          .error(() => 'Firstname is a required field with a min of 3 chars and no special chars or numbers'),
 
         lastname: Joi.string().min(3).max(15).regex(/^[a-zA-Z]*$/)
           .required()
-          .error((errors) => {
-            errors.forEach((err) => {
-              switch (err.type) {
-                case 'any.empty':
-                  err.message = 'lastName should not be empty!';
-                  break;
-                case 'string.min':
-                  err.message = `lastName should have at least ${err.context.limit} characters!`;
-                  break;
-                case 'string.max':
-                  err.message = `lastName should have at most ${err.context.limit} characters!`;
-                  break;
-                case 'string.regex.base':
-                  err.message = 'lastName must be a word with no special characters';
-                  break;
-                default:
-                  break;
-              }
-            });
-            return errors;
-          }),
+          .error(() => 'Firstname is a required field with a min of 3 chars and no special chars or numbers'),
+
         address: Joi.string().alphanum().min(5).max(50)
-          .required(),
+          .required()
+          .error(() => 'Address is a required field with a min of 5 chars and no special chars'),
 
         phoneNumber: Joi.string().min(10).max(10).regex(/^[0-9]*$/)
           .required()
-          .error((errors) => {
-            errors.forEach((err) => {
-              switch (err.type) {
-                case 'any.empty':
-                  err.message = 'PhoneNumber should not be empty!';
-                  break;
-                case 'string.min':
-                  err.message = `PhoneNumber should have at least ${err.context.limit} characters!`;
-                  break;
-                case 'string.max':
-                  err.message = `PhoneNumber should have at most ${err.context.limit} characters!`;
-                  break;
-                case 'string.regex.base':
-                  err.message = 'PhoneNumber must be made up of numbers with no special characters or letters';
-                  break;
-                default:
-                  break;
-              }
-            });
-            return errors;
-          }),
+          .error(() => 'phoneNumber is a required field with a min of 10 numbers and no special chars or letters'),
 
-        email: Joi.string().email({ minDomainSegments: 2 }).required(),
+        email: Joi.string().email({ minDomainSegments: 2 }).required()
+          .error(() => 'Invalid Email'),
 
-        password: Joi.string().min(5).max(15).regex(/^[a-zA-Z0-9]*$/)
+        password: Joi.string().min(5).max(15).alphanum()
           .required()
-          .error((errors) => {
-            errors.forEach((err) => {
-              switch (err.type) {
-                case 'any.empty':
-                  err.message = 'password should not be empty!';
-                  break;
-                case 'string.min':
-                  err.message = `password should have at least ${err.context.limit} characters!`;
-                  break;
-                case 'string.regex.base':
-                  err.message = 'password must contain alphabets and numbers only, no special characters';
-                  break;
-                default:
-                  break;
-              }
-            });
-            return errors;
-          }),
+          .error(() => 'Password is a required field with a min of 5 chars and no special chars'),
       };
-
       const { error } = Joi.validate(req.body, schema);
 
       if (error) {
@@ -121,26 +46,11 @@ class Validations {
   static async validateLogin(req, res, next) {
     try {
       const schema = {
-        email: Joi.string().email({ minDomainSegments: 2 }).required(),
-        password: Joi.string().min(5).regex(/^[a-zA-Z0-9]*$/).required()
-          .error((errors) => {
-            errors.forEach((err) => {
-              switch (err.type) {
-                case 'any.empty':
-                  err.message = 'password should not be empty!';
-                  break;
-                case 'string.min':
-                  err.message = `password should have at least ${err.context.limit} characters!`;
-                  break;
-                case 'string.regex.base':
-                  err.message = 'password must contain only alphabets and numbers, no special characters';
-                  break;
-                default:
-                  break;
-              }
-            });
-            return errors;
-          }),
+        email: Joi.string().email({ minDomainSegments: 2 }).required()
+          .error(() => 'Invalid Email'),
+        password: Joi.string().min(5).max(15).alphanum()
+          .required()
+          .error(() => 'Password is a required field with a min of 5 chars and no special chars'),
       };
       const { error } = Joi.validate(req.body, schema);
 
