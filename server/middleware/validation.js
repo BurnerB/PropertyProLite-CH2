@@ -154,17 +154,41 @@ class Validations {
   static async validateProperty(req, res, next) {
     try {
       const schema = {
-        status: Joi.string().required(),
-        type: Joi.string().required(),
-        state: Joi.string().required(),
-        city: Joi.string().required(),
-        price: Joi.number().required(),
-        address: Joi.string().required(),
-        image_url: Joi.string().required(),
+        status: Joi.string().min(5).max(15).regex(/^[a-zA-Z]*$/)
+          .required()
+          .error(() => 'Status is a required field with a min of 3 chars and no special chars or numbers'),
+
+        type: Joi.string().min(5).max(15).required()
+          .error(() => 'Type is a required field with a min of 3 chars and no special characters'),
+
+        state: Joi.string().min(5).max(15).alphanum()
+          .required()
+          .error(() => 'State is a required field with a min of 3 chars and no special chars'),
+
+        city: Joi.string().min(5).max(15).required()
+          .error(() => 'City is a required field with a min of 3 chars and no special chars or numbers'),
+
+        price: Joi.number().required()
+          .error(() => 'Price is a required field with no special chars or alphabets'),
+
+        address: Joi.string().min(5).max(15).alphanum()
+          .required()
+          .error(() => 'Address is a required field with a min of 3 chars and no special chars or numbers'),
+
+        image_url: Joi.string().uri()
+          .required()
+          .error(() => 'Image_Url is a required field and no special chars or numbers'),
+
       };
       const { error } = Joi.validate(req.body, schema);
 
-      if (error) return res.status(400).send(error.details[0].message);
+      if (error) {
+        return res.status(400)
+          .json({
+            status: 'error',
+            data: error.details[0].message,
+          });
+      }
       next();
     } catch (e) {
       console.log(e);

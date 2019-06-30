@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 
 describe('/PROPERTY', () => {
   describe('/POST property', () => {
-    it('should successfully post an property advert', (done) => {
+    it('should successfully post a property advert', (done) => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
@@ -26,7 +26,7 @@ describe('/PROPERTY', () => {
         });
     });
 
-    it('should not  post an property advert with missing status', (done) => {
+    it('should not  post a property advert with missing status', (done) => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
@@ -45,7 +45,7 @@ describe('/PROPERTY', () => {
         });
     });
 
-    it('should not  post an property advert with missing price', (done) => {
+    it('should not  post a property advert with missing price', (done) => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
@@ -64,7 +64,7 @@ describe('/PROPERTY', () => {
         });
     });
 
-    it('should not  post an property advert with missing state', (done) => {
+    it('should not  post a property advert with missing state', (done) => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
@@ -83,7 +83,7 @@ describe('/PROPERTY', () => {
         });
     });
 
-    it('should not  post an property advert with missing city', (done) => {
+    it('should not  post a property advert with missing city', (done) => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
@@ -102,7 +102,7 @@ describe('/PROPERTY', () => {
         });
     });
 
-    it('should not  post an property advert with missing address', (done) => {
+    it('should not  post a property advert with missing address', (done) => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
@@ -121,7 +121,7 @@ describe('/PROPERTY', () => {
         });
     });
 
-    it('should not  post an property advert with missing type', (done) => {
+    it('should not  post a property advert with missing type', (done) => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
@@ -140,7 +140,7 @@ describe('/PROPERTY', () => {
         });
     });
 
-    it('should not  post an property advert with missing image_url', (done) => {
+    it('should not  post a property advert with missing image_url', (done) => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
@@ -163,7 +163,7 @@ describe('/PROPERTY', () => {
       chai.request(app)
         .post('/api/v1/property')
         .send({
-          status: 'Available',
+          status: '12#fj',
           price: 5000000,
           state: 'Nairobi',
           city: 'Nairobi City',
