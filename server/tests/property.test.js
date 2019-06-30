@@ -25,7 +25,7 @@ describe('/PROPERTY', () => {
           done();
         });
     });
-    
+
     it('should not  post an property advert with missing status', (done) => {
       chai.request(app)
         .post('/api/v1/property')
@@ -151,6 +151,139 @@ describe('/PROPERTY', () => {
           address: 'Kenya',
           type: '2 bedroom',
           image_url: '',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not  post a property advert with invalid status', (done) => {
+      chai.request(app)
+        .post('/api/v1/property')
+        .send({
+          status: 'Available',
+          price: 5000000,
+          state: 'Nairobi',
+          city: 'Nairobi City',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not  post a property advert with invalid price', (done) => {
+      chai.request(app)
+        .post('/api/v1/property')
+        .send({
+          status: 'Available',
+          price: 'a large mount',
+          state: 'Nairobi',
+          city: 'Nairobi City',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not  post a property advert with invalid state', (done) => {
+      chai.request(app)
+        .post('/api/v1/property')
+        .send({
+          status: 'Available',
+          price: 5000000,
+          state: '1234',
+          city: 'Nairobi City',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not  post a property advert with invalid city', (done) => {
+      chai.request(app)
+        .post('/api/v1/property')
+        .send({
+          status: 'Available',
+          price: 5000000,
+          state: 'Nairobi',
+          city: '1234',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not  post a property advert with invalid address', (done) => {
+      chai.request(app)
+        .post('/api/v1/property')
+        .send({
+          status: 'Available',
+          price: 5000000,
+          state: 'Nairobi',
+          city: 'Nairobi City',
+          address: '@#%%',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not  post a property advert with invalid type', (done) => {
+      chai.request(app)
+        .post('/api/v1/property')
+        .send({
+          status: 'Available',
+          price: 5000000,
+          state: 'Nairobi',
+          city: 'Nairobi City',
+          address: '  Kenya',
+          type: ' @#%@',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not  post a property advert with image_url status', (done) => {
+      chai.request(app)
+        .post('/api/v1/property')
+        .send({
+          status: 'Available',
+          price: 5000000,
+          state: 'Nairobi',
+          city: 'Nairobi City',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: '@#%%',
         })
         .end((err, res) => {
           res.should.have.status(400);
