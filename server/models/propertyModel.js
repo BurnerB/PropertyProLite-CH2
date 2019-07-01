@@ -45,6 +45,27 @@ class PropertyModel {
     this.result = newAdvert;
     return true;
   }
+
+  async markProperty() {
+    const obj = db.find(o => o._id === parseInt(this.payload._id));
+    if (!obj) {
+      return false;
+    }
+    const newAdvert = {
+      _id: obj._id,
+      owner: obj.owner,
+      status: 'Sold',
+      type: obj.type,
+      state: obj.state,
+      city: obj.city,
+      price: obj.price,
+      address: obj.address,
+      image_url: obj.image_url,
+    };
+    db.splice(obj._id - 1, 1, newAdvert);
+    this.result = newAdvert;
+    return true;
+  }
 }
 
 export default PropertyModel;
