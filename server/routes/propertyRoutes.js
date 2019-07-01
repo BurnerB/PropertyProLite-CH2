@@ -7,5 +7,6 @@ import agent from '../middleware/agent';
 const router = express.Router();
 
 router.post('/property', [auth, agent], Validation.validateProperty, Property.postProperty);
+router.patch('/property/:property_id', [auth, agent], Validation.validateUpdateProperty, Property.updateProperty);
 
 export default router;
