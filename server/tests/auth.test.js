@@ -17,6 +17,7 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '0700000000',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -35,6 +36,7 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '0700000000',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -53,6 +55,7 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '0700000000',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -71,6 +74,7 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '0700000000',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -89,6 +93,7 @@ describe('/Authen', () => {
           password: '',
           phoneNumber: '0700000000',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -107,6 +112,7 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -125,6 +131,26 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '0700000000',
           address: '',
+          is_Agent: false,
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not sign up user with missing is_Agent', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          email: 'johndoe@gmail.com',
+          firstname: 'John',
+          lastname: 'Doe',
+          password: 'abu1234',
+          phoneNumber: '0700000000',
+          address: 'Kenya',
+          is_Agent: '',
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -143,6 +169,7 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '0700000000',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(409);
@@ -161,6 +188,7 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '0700000000',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -179,6 +207,7 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '0700000000',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -197,6 +226,7 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '0700000000',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -215,6 +245,7 @@ describe('/Authen', () => {
           password: 'abu12340000000000000000000',
           phoneNumber: '0700000000',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -233,6 +264,7 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '+25470000ad00',
           address: 'Kenya',
+          is_Agent: false,
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -251,6 +283,26 @@ describe('/Authen', () => {
           password: 'abu1234',
           phoneNumber: '+25470000ad00',
           address: '@#4',
+          is_Agent: false,
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should check if is_Agent is valid', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          email: 'johndoegmail.com',
+          firstname: 'John123',
+          lastname: 'Ndomimi',
+          password: 'abu1234',
+          phoneNumber: '+25470000ad00',
+          address: 'Kenya',
+          is_Agent: 'maybe',
         })
         .end((err, res) => {
           res.should.have.status(400);

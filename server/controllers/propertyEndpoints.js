@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import moment from 'moment';
 import PropertyModel from '../models/propertyModel';
 import db from '../db/adverts';
@@ -17,9 +18,9 @@ class Property {
         address,
         image_url,
       } = req.body;
-
+      
       const _id = db.length + 1;
-      const owner = 1;
+      const owner = req.user._id;
 
       const newAdvert = new PropertyModel({
         _id,

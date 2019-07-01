@@ -27,6 +27,9 @@ class Validations {
         password: Joi.string().min(5).max(15).alphanum()
           .required()
           .error(() => 'Password is a required field with a min of 5 chars and no special chars'),
+
+        is_Agent: Joi.boolean().required()
+          .error(() => 'is_Agent is a required field and can only be true or false'),
       };
       const { error } = Joi.validate(req.body, schema);
 
@@ -54,7 +57,13 @@ class Validations {
       };
       const { error } = Joi.validate(req.body, schema);
 
-      if (error) return res.status(400).send(error.details[0].message);
+      if (error) {
+        return res.status(400)
+          .json({
+            status: 'error',
+            data: error.details[0].message,
+          });
+      }
       next();
     } catch (e) {
       console.log(e);

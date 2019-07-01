@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import db from '../db/users';
 
 class UserModel {
