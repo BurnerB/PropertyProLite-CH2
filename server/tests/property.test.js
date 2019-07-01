@@ -685,4 +685,50 @@ describe('/PROPERTY', () => {
         });
     });
   });
+
+  describe('/PATCH sold-property', () => {
+    it('should successfully mark property as sold', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/sold')
+        .set('authorization', `Bearer ${agentToken}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark a property advert with no token', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/sold')
+        .set('authorization', ' ')
+        .end((err, res) => {
+          res.should.have.status(401);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark a property advert with forbidden token', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/sold')
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          res.should.have.status(403);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark a property advert if no id exists', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/111/sold')
+        .set('authorization', `Bearer ${agentToken}`)
+        .end((err, res) => {
+          res.should.have.status(404);
+          if (err) return done();
+          done();
+        });
+    });
+  })
 });
