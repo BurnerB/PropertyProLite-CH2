@@ -6,7 +6,7 @@ import app from '../../app';
 chai.should();
 chai.use(chaiHttp);
 
-let userToken
+let userToken;
 let agentToken;
 
 describe('/PROPERTY', () => {
@@ -17,8 +17,8 @@ describe('/PROPERTY', () => {
       firstname: 'John',
       lastname: 'Doe',
       address: 'Rwanda',
-      is_Agent:true,
-      is_Admin:false,
+      is_Agent: true,
+      is_Admin: false,
     },
     process.env.JWT_KEY, {
       expiresIn: '1h',
@@ -30,8 +30,8 @@ describe('/PROPERTY', () => {
       firstname: 'John',
       lastname: 'Doe',
       address: 'Rwanda',
-      is_Agent:false,
-      is_Admin:false,
+      is_Agent: false,
+      is_Admin: false,
     },
     process.env.JWT_KEY, {
       expiresIn: '1h',
@@ -82,7 +82,7 @@ describe('/PROPERTY', () => {
     it('should not post a property advert with no token', (done) => {
       chai.request(app)
         .post('/api/v1/property')
-        .set('authorization', " ")
+        .set('authorization', ' ')
         .send({
           status: 'Available',
           price: 5000000,
@@ -374,6 +374,134 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+  });
+
+  describe('/PATCH property', () => {
+    it('should successfully update price of property advert', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 6000000,
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update a property advert with no token', (done) => {
+      chai.request(app)
+        .post('/api/v1/property/1')
+        .set('authorization', ' ')
+        .send({
+          rice: 6000000,
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update a property advert with invalid token', (done) => {
+      chai.request(app)
+        .post('/api/v1/property/1')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          price: 6000000,
+        })
+        .end((err, res) => {
+          res.should.have.status(403);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update a property advert if no id exists', (done) => {
+      chai.request(app)
+        .post('/api/v1/property/100')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          price: 6000000,
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should successfully update state of property advert', (done) => {
+      chai.request(app)
+        .post('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          state: 'Kisumu',
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should successfully update city of property advert', (done) => {
+      chai.request(app)
+        .post('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          city: 'Kisumu City',
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should successfully update address of property advert', (done) => {
+      chai.request(app)
+        .post('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          address: 'Rwanda',
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should successfully update address of type advert', (done) => {
+      chai.request(app)
+        .post('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          type: '3 bedroom',
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should successfully update image_url of type advert', (done) => {
+      chai.request(app)
+        .post('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
           if (err) return done();
           done();
         });
