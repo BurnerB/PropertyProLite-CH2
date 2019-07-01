@@ -95,6 +95,36 @@ class Property {
       res.status(500);
     }
   }
+
+  static async markSold(req, res){
+    try{
+      const token = req.headers.authorization.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_KEY);
+
+      const user_id = decoded._id
+
+      const _id = req.params.property_id;
+
+      const property = new PropertyModel({
+        _id
+      });
+
+      if (!await property.markProperty() || (user_id !== property.result.owner)) {
+        return res.status(404)
+          .json({
+            status: 'Error',
+            data: 'You have no advert with that Id',
+          });
+      } return res.status(200)
+        .json({
+          status: 'Success',
+          data: property.result,
+        });
+    }catch{
+      console.log(e);
+      res.status(500);
+    }
+  }
 }
 
 export default Property;
