@@ -1,9 +1,14 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import moment from 'moment';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import PropertyModel from '../models/propertyModel';
 import db from '../db/adverts';
 
-// eslint-disable-next-line camelcase
+
+dotenv.config();
+
 const created_on = moment().format('MMMM Do YYYY, h:mm:ss a');
 
 class Property {
@@ -18,7 +23,7 @@ class Property {
         address,
         image_url,
       } = req.body;
-      
+
       const _id = db.length + 1;
       const owner = req.user._id;
 
@@ -34,8 +39,8 @@ class Property {
         created_on,
         image_url,
       });
-      
-      await newAdvert.registerProperty()
+
+      await newAdvert.createProperty();
       res.status(201)
         .json({
           status: 'success',
@@ -47,6 +52,49 @@ class Property {
       res.status(500);
     }
   }
-};
+
+  static async updateProperty(req, res) {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_KEY);
+
+      const user_id = decoded._id;
+      const {
+        type,
+        state,
+        city,
+        price,
+        address,
+        image_url,
+      } = req.body;
+      const _id = req.params.property_id;
+
+      const property = new PropertyModel({
+        _id,
+        type,
+        state,
+        city,
+        price,
+        address,
+        image_url,
+      });
+
+      if (!await property.updateProperty() || (user_id !== property.result.owner)) {
+        return res.status(404)
+          .json({
+            status: 'Error',
+            data: 'You have no advert with that Id',
+          });
+      } return res.status(200)
+        .json({
+          status: 'Success',
+          data: property.result,
+        });
+    } catch (e) {
+      console.log(e);
+      res.status(500);
+    }
+  }
+}
 
 export default Property;

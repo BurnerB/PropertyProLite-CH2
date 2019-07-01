@@ -84,7 +84,49 @@ class Validations {
           .required()
           .error(() => 'State is a required field with a min of 3 chars and no special chars'),
 
-        city: Joi.string().min(5).max(15).required()
+        city: Joi.string().min(5).max(15).alphanum()
+          .required()
+          .error(() => 'City is a required field with a min of 3 chars and no special chars or numbers'),
+
+        price: Joi.number().required()
+          .error(() => 'Price is a required field with no special chars or alphabets'),
+
+        address: Joi.string().min(5).max(15).alphanum()
+          .required()
+          .error(() => 'Address is a required field with a min of 3 chars and no special chars or numbers'),
+
+        image_url: Joi.string().uri()
+          .required()
+          .error(() => 'Image_Url is a required field and no special chars or numbers'),
+
+      };
+      const { error } = Joi.validate(req.body, schema);
+
+      if (error) {
+        return res.status(400)
+          .json({
+            status: 'error',
+            data: error.details[0].message,
+          });
+      }
+      next();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  static async validateUpdateProperty(req, res, next) {
+    try {
+      const schema = {
+        type: Joi.string().min(5).max(15).required()
+          .error(() => 'Type is a required field with a min of 3 chars'),
+
+        state: Joi.string().min(5).max(15).alphanum()
+          .required()
+          .error(() => 'State is a required field with a min of 3 chars and no special chars'),
+
+        city: Joi.string().min(5).max(15).alphanum()
+          .required()
           .error(() => 'City is a required field with a min of 3 chars and no special chars or numbers'),
 
         price: Joi.number().required()
