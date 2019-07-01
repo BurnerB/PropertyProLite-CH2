@@ -47,7 +47,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -67,7 +67,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -87,7 +87,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -107,7 +107,7 @@ describe('/PROPERTY', () => {
           status: '',
           price: 5000000,
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -127,7 +127,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: '',
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -147,7 +147,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 5000000,
           state: '',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -187,7 +187,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: '',
           type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -207,7 +207,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -227,7 +227,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
           image_url: '',
@@ -247,7 +247,7 @@ describe('/PROPERTY', () => {
           status: '12#fj',
           price: 5000000,
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -267,7 +267,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 'a large mount',
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -287,7 +287,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 5000000,
           state: '1234',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -327,7 +327,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: '@#%%',
           type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -347,7 +347,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: '  Kenya',
           type: ' @#%@',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
@@ -367,7 +367,7 @@ describe('/PROPERTY', () => {
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
-          city: 'Nairobi City',
+          city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
           image_url: '@#%%',
@@ -381,12 +381,17 @@ describe('/PROPERTY', () => {
   });
 
   describe('/PATCH property', () => {
-    it('should successfully update price of property advert', (done) => {
+    it('should successfully update property advert', (done) => {
       chai.request(app)
         .patch('/api/v1/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -397,10 +402,15 @@ describe('/PROPERTY', () => {
 
     it('should not update a property advert with no token', (done) => {
       chai.request(app)
-        .post('/api/v1/property/1')
+        .patch('/api/v1/property/1')
         .set('authorization', ' ')
         .send({
-          rice: 6000000,
+          price: 6000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -409,12 +419,17 @@ describe('/PROPERTY', () => {
         });
     });
 
-    it('should not update a property advert with invalid token', (done) => {
+    it('should not update a property advert with forbidden token', (done) => {
       chai.request(app)
-        .post('/api/v1/property/1')
+        .patch('/api/v1/property/1')
         .set('authorization', `Bearer ${userToken}`)
         .send({
           price: 6000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(403);
@@ -425,10 +440,15 @@ describe('/PROPERTY', () => {
 
     it('should not update a property advert if no id exists', (done) => {
       chai.request(app)
-        .post('/api/v1/property/100')
-        .set('authorization', `Bearer ${userToken}`)
+        .patch('/api/v1/property/111')
+        .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(404);
@@ -437,71 +457,229 @@ describe('/PROPERTY', () => {
         });
     });
 
-    it('should successfully update state of property advert', (done) => {
+    it('should not update advert with invalid price', (done) => {
       chai.request(app)
-        .post('/api/v1/property/1')
+        .patch('/api/v1/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
-          state: 'Kisumu',
-        })
-        .end((err, res) => {
-          res.should.have.status(200);
-          if (err) return done();
-          done();
-        });
-    });
-
-    it('should successfully update city of property advert', (done) => {
-      chai.request(app)
-        .post('/api/v1/property/1')
-        .set('authorization', `Bearer ${agentToken}`)
-        .send({
-          city: 'Kisumu City',
-        })
-        .end((err, res) => {
-          res.should.have.status(200);
-          if (err) return done();
-          done();
-        });
-    });
-
-    it('should successfully update address of property advert', (done) => {
-      chai.request(app)
-        .post('/api/v1/property/1')
-        .set('authorization', `Bearer ${agentToken}`)
-        .send({
-          address: 'Rwanda',
-        })
-        .end((err, res) => {
-          res.should.have.status(200);
-          if (err) return done();
-          done();
-        });
-    });
-
-    it('should successfully update address of type advert', (done) => {
-      chai.request(app)
-        .post('/api/v1/property/1')
-        .set('authorization', `Bearer ${agentToken}`)
-        .send({
-          type: '3 bedroom',
-        })
-        .end((err, res) => {
-          res.should.have.status(200);
-          if (err) return done();
-          done();
-        });
-    });
-
-    it('should successfully update image_url of type advert', (done) => {
-      chai.request(app)
-        .post('/api/v1/property/1')
-        .set('authorization', `Bearer ${agentToken}`)
-        .send({
+          price: 'yazaa',
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update advert with invalid state', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 6000000,
+          state: 'Nai@robi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update advert with invalid city', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 6000000,
+          state: 'Nairobi',
+          city: 'N@irobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update advert with invalid address', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 6000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Keny@',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update advert with invalid type', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 6000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '1Rm',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update advert with invalid image_url', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 6000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update advert with missing price', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: '',
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update advert with missing state', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 6000000,
+          state: '',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update advert with missing city', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 6000000,
+          state: 'Nairobi',
+          city: '',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update advert with missing address', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 6000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: '',
+          type: '2 bedroom',
+          image_url: 'kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update advert with missing type', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 6000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not update advert with missing image_url', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 6000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: '',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
           if (err) return done();
           done();
         });
