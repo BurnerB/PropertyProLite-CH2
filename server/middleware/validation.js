@@ -156,5 +156,30 @@ class Validations {
       console.log(e);
     }
   }
+
+  static async validateReset(req, res, next) {
+    try {
+      const schema = {
+        phoneNumber: Joi.string().min(10).max(10).regex(/^[0-9]*$/)
+          .optional()
+          .error(() => 'phoneNumber is an opional field with a min of 10 numbers and no special chars or letters'),
+
+        email: Joi.string().email({ minDomainSegments: 2 }).required()
+          .error(() => 'Invalid Email'),
+      };
+      const { error } = Joi.validate(req.body, schema);
+
+      if (error) {
+        return res.status(400)
+          .json({
+            status: 'error',
+            data: error.details[0].message,
+          });
+      }
+      next();
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
 export default Validations;

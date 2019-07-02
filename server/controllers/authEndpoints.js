@@ -58,7 +58,7 @@ class Authentication {
       res.status(201)
         .json({
           status: 'success',
-          data: _.pick(newUser.result, ['_id', 'email', 'firstname','lastname', 'address','is_Agent', 'is_Admin']),
+          data: _.pick(newUser.result, ['_id', 'email', 'firstname', 'lastname', 'address', 'is_Agent', 'is_Admin']),
                 token,
         });
       return;
@@ -74,31 +74,54 @@ class Authentication {
 			const user = new UserModel(email);
 
 			if (await user.findbyEmail()) {
-
         // eslint-disable-next-line no-underscore-dangle
-        const { _id, firstname, lastname, is_Admin, is_Agent, phoneNumber } = user.result;
+        const {
+            _id, firstname, lastname, is_Admin, is_Agent, phoneNumber,
+        } = user.result;
 
 				if (bcrypt.compareSync(password, user.result.password)) {
             const token = Token.genToken(_id, email, firstname, lastname, is_Agent, is_Admin, phoneNumber);
 				    res.status(200)
                 .json({
                         status: 'success',
-                        data: _.pick(user.result, ['_id', 'email', 'firstname','lastname', 'is_Agent', 'is_Admin']),
+                        data: _.pick(user.result, ['_id', 'email', 'firstname', 'lastname', 'is_Agent', 'is_Admin']),
                             token,
                       });
         return;
         }res.status(401)
             .json({
                   status: 'Error',
-                  data: 'Incorrect password Email combination', 
+                  data: 'Incorrect password Email combination',
                 });
         return;
 			}res.status(400)
                 .json({
                         status: 'Error',
-                        data: 'email not found sign up to create an account'
+                        data: 'email not found sign up to create an account',
                       });
                       return;
+		} catch (e) {
+            console.log(e);
+            res.status(500);
+		}
+  }
+
+  static async resetPassword(req, res) {
+		try {
+      const { email, phoneNumber } = req.body;
+
+      const user = new UserModel(email);
+      if (!await user.findbyEmail()) {
+        return res.status(404)
+              .json({
+                    status: 'Error',
+                    data: 'No account with this email found',
+                  });
+      } return res.status(200)
+                .json({
+                        status: 'success',
+                        data: 'Details on password reset have been sent to your email address',
+                      });
 		} catch (e) {
             console.log(e);
             res.status(500);
