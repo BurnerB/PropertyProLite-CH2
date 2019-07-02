@@ -185,7 +185,7 @@ class Property {
     try {
       const { type } = req.query;
       const Type = new PropertyModel({ type });
-      
+
       // return res.send(req.query)
       if (!await Type.searchbyType()) {
         return res.status(404)
@@ -199,6 +199,29 @@ class Property {
           status: 'Success',
           data: Type.result,
         });
+    } catch (e) {
+      console.log(e);
+      res.status(500);
+    }
+  }
+
+  static async specificAdvert(req, res) {
+    try {
+      const _id = req.params.property_id;
+      const property = new PropertyModel({
+        _id,
+      });
+      
+      if (!await property.findById()) {
+        return res.status(404)
+          .json({
+            status: 'Error',
+            data: 'No property with that id found',
+          });
+      } return res.json({
+        status: 'Success',
+        data: property.result,
+      });
     } catch (e) {
       console.log(e);
       res.status(500);
