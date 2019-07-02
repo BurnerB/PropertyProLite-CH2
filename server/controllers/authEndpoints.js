@@ -52,13 +52,13 @@ class Authentication {
         return;
       }
 
-      const token = Token.genToken(_id, email, firstname, lastname, is_Agent, is_Admin);
+      const token = Token.genToken(_id, email, firstname, lastname, is_Agent, is_Admin, phoneNumber);
 
       // You don't want the code to continue after you've done res.status().json({ }); because it will then try to send another response.
       res.status(201)
         .json({
           status: 'success',
-          data: _.pick(newUser.result, ['_id', 'email', 'firstname','lastname' , 'address','is_Agent', 'is_Admin']),
+          data: _.pick(newUser.result, ['_id', 'email', 'firstname','lastname', 'address','is_Agent', 'is_Admin']),
                 token,
         });
       return;
@@ -76,10 +76,10 @@ class Authentication {
 			if (await user.findbyEmail()) {
 
         // eslint-disable-next-line no-underscore-dangle
-        const { _id, firstname, lastname, is_Admin, is_Agent} = user.result;
+        const { _id, firstname, lastname, is_Admin, is_Agent, phoneNumber } = user.result;
 
 				if (bcrypt.compareSync(password, user.result.password)) {
-            const token = Token.genToken(_id, email, firstname, lastname, is_Agent, is_Admin);
+            const token = Token.genToken(_id, email, firstname, lastname, is_Agent, is_Admin, phoneNumber);
 				    res.status(200)
                 .json({
                         status: 'success',
