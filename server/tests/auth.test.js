@@ -410,4 +410,77 @@ describe('/Authen', () => {
         });
     });
   });
+
+  describe('/POST reset', () =>{
+    it('should successfully reset password', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/reset')
+        .send({
+          email: 'johndoe@gmail.com',
+          phoneNumber: '0700000000',
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not reset password with missing email', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/reset')
+        .send({
+          email: ' ',
+          phoneNumber: '0700000000',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not reset password with missing phoneNumber', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/reset')
+        .send({
+          email: 'johndoe@gmail.com',
+          phoneNumber: ' ',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not reset password with invalid phoneNumber', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/reset')
+        .send({
+          email: 'johndoe@gmail.com',
+          phoneNumber: 'a_number',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not reset password with invalid email', (done) => {
+      chai.request(app)
+        .post('/api/v1/auth/reset')
+        .send({
+          email: 'johndoegmail.com',
+          phoneNumber: '0700000000',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+    
+  })
 });
