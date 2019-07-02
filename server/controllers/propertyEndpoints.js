@@ -155,6 +155,27 @@ class Property {
       res.status(500);
     }
   }
+
+  static async allAdverts(req, res) {
+    try {
+      const allData = new PropertyModel();
+      if (!await allData.allproperties()) {
+        return res.status(404)
+          .json({
+            status: 'Error',
+            data: allData.result,
+          });
+      }
+      return res.status(200)
+        .json({
+          status: 'Success',
+          data: allData.result,
+        });
+    } catch (e) {
+      console.log(e);
+      res.status(500);
+    }
+  }
 }
 
 export default Property;
