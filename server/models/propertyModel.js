@@ -40,6 +40,7 @@ class PropertyModel {
       price: this.payload.price,
       address: this.payload.address,
       image_url: this.payload.image_url,
+      created_on:this.payload.created_on,
     };
     db.splice(obj._id - 1, 1, newAdvert);
     this.result = newAdvert;
@@ -74,6 +75,15 @@ class PropertyModel {
     }
     this.result = obj;
     db.splice(db.indexOf(obj), 1);
+    return true;
+  }
+
+  async allproperties() {
+    if (db.length === 0) {
+      this.result = [];
+      return false;
+    }
+    this.result = db;
     return true;
   }
 }
