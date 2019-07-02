@@ -26,10 +26,14 @@ class Property {
 
       const _id = db.length + 1;
       const owner = req.user._id;
+      const ownerEmail = req.user.email;
+      const ownerPhoneNumber = req.user.phoneNumber;
 
       const newAdvert = new PropertyModel({
         _id,
         owner,
+        ownerEmail,
+        ownerPhoneNumber,
         status,
         type,
         state,
@@ -170,6 +174,30 @@ class Property {
         .json({
           status: 'Success',
           data: allData.result,
+        });
+    } catch (e) {
+      console.log(e);
+      res.status(500);
+    }
+  }
+
+  static async specificType(req, res) {
+    try {
+      const { type } = req.query;
+      const Type = new PropertyModel({ type });
+      
+      // return res.send(req.query)
+      if (!await Type.searchbyType()) {
+        return res.status(404)
+          .json({
+            status: 'Error',
+            data: 'No property ads of that type found',
+          });
+      }
+      return res.status(200)
+        .json({
+          status: 'Success',
+          data: Type.result,
         });
     } catch (e) {
       console.log(e);
