@@ -96,17 +96,17 @@ class Property {
     }
   }
 
-  static async markSold(req, res){
-    try{
+  static async markSold(req, res) {
+    try {
       const token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_KEY);
 
-      const user_id = decoded._id
+      const user_id = decoded._id;
 
       const _id = req.params.property_id;
 
       const property = new PropertyModel({
-        _id
+        _id,
       });
 
       if (!await property.markProperty() || (user_id !== property.result.owner)) {
@@ -120,7 +120,37 @@ class Property {
           status: 'Success',
           data: property.result,
         });
-    }catch{
+    } catch (e) {
+      console.log(e);
+      res.status(500);
+    }
+  }
+
+  static async deleteAdvert(req, res) {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_KEY);
+
+      const user_id = decoded._id;
+
+      const _id = req.params.property_id;
+
+      const property = new PropertyModel({
+        _id,
+      });
+
+      if (!await property.delete() || (user_id !== property.result.owner)) {
+        return res.status(404)
+          .json({
+            status: 'Error',
+            data: 'You have no advert with that Id',
+          });
+      } return res.status(200)
+        .json({
+          status: 'Success',
+          data: 'successfully deleted ',
+        });
+    } catch (e) {
       console.log(e);
       res.status(500);
     }
