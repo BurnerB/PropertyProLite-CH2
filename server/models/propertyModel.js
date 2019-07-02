@@ -66,6 +66,16 @@ class PropertyModel {
     this.result = newAdvert;
     return true;
   }
+
+  async delete() {
+    const obj = db.find(o => o._id === parseInt(this.payload._id));
+    if (!obj) {
+      return false;
+    }
+    this.result = obj;
+    db.splice(db.indexOf(obj), 1);
+    return true;
+  }
 }
 
 export default PropertyModel;

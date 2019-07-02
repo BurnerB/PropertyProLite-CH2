@@ -9,5 +9,6 @@ const router = express.Router();
 router.post('/property', [auth, agent], Validation.validateProperty, Property.postProperty);
 router.patch('/property/:property_id', [auth, agent], Validation.validateUpdateProperty, Property.updateProperty);
 router.patch('/property/:property_id/sold', [auth, agent], Property.markSold);
+router.delete('/property/:property_id', [auth, agent], Property.deleteAdvert);
 
 export default router;
