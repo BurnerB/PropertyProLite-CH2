@@ -11,6 +11,8 @@ class PropertyModel {
     const property = {
       _id: this.payload._id,
       owner: this.payload.owner,
+      ownerEmail:this.payload.ownerEmail,
+      ownerPhoneNumber:this.payload.ownerPhoneNumber,
       status: this.payload.status,
       type: this.payload.type,
       state: this.payload.state,
@@ -40,7 +42,7 @@ class PropertyModel {
       price: this.payload.price,
       address: this.payload.address,
       image_url: this.payload.image_url,
-      created_on:this.payload.created_on,
+      created_on: this.payload.created_on,
     };
     db.splice(obj._id - 1, 1, newAdvert);
     this.result = newAdvert;
@@ -84,6 +86,16 @@ class PropertyModel {
       return false;
     }
     this.result = db;
+    return true;
+  }
+
+  async searchbyType() {
+    const { type } = this.payload;
+    const obj = db.filter(o => o.type === type);
+    if (obj.length === 0) {
+      return false;
+    }
+    this.result = obj;
     return true;
   }
 }

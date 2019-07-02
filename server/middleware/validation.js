@@ -118,8 +118,9 @@ class Validations {
   static async validateUpdateProperty(req, res, next) {
     try {
       const schema = {
-        type: Joi.string().min(5).max(15).required()
-          .error(() => 'Type is a required field with a min of 3 chars'),
+        type: Joi.string().min(5).max(15).alphanum()
+          .required()
+          .error(() => 'Type is a required field with a min of 3 chars and no special chars'),
 
         state: Joi.string().min(5).max(15).alphanum()
           .required()
