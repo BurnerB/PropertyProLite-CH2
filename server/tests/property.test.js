@@ -730,7 +730,7 @@ describe('/PROPERTY', () => {
           done();
         });
     });
-  })
+  });
 
   describe('/DELETE property', () => {
     it('should successfully delete a  property advert', (done) => {
@@ -776,5 +776,97 @@ describe('/PROPERTY', () => {
           done();
         });
     });
-  })
+  });
+
+  describe('/PATCH property fraudulent', () => {
+    it('should successfully mark property as fraudulent', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: 'fake picture',
+          description: 'The picture in the description does not match the actual property',
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent with no token', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: 'fake picture',
+          description: 'The picture in the description does not match the actual property',
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent with invalid reason', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: 'fake pictu@#$re',
+          description: 'The picture in the description does not match the actual property',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent with invalid description', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: 'fake picture',
+          description: 'The pictur@#$e in the description does not match the actual property',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent wih no reason', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: ' ',
+          description: 'The pictur@#$e in the description does not match the actual property',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent with no description', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: 'fake picture',
+          description: ' ',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+  });
 });
