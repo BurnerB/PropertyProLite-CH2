@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import db from '../db/adverts';
+import fraud from '../db/fraudulent';
 
 class PropertyModel {
   constructor(payload = null) {
@@ -98,6 +99,32 @@ class PropertyModel {
     this.result = obj;
     return true;
   }
+
+  async markFraud() {
+    const obj = db.find(o => o._id === parseInt(this.payload.property_id));
+    if (!obj) {
+      return false;
+    }
+    const reported = {
+      _id: this.payload._id,
+      user_id:this.payload.user_id,
+      property_id: this.payload.property_id,
+      created_on: this.payload.created_on,
+      reason: this.payload.reason,
+      description: this.payload.description,
+    };
+    fraud.push(reported);
+    this.result = reported;
+    return true;
+  }
+
+  async findById() {
+    const obj = fraud.find(o => o.user_id === parseInt(this.payload.user_id));
+    if (!obj) {
+      return false;
+    }
+    return true;
+ }
 }
 
 export default PropertyModel;

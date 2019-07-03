@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import PropertyModel from '../models/propertyModel';
 import db from '../db/adverts';
+import fraud from '../db/fraudulent';
 
 
 dotenv.config();
@@ -211,7 +212,7 @@ class Property {
       const property = new PropertyModel({
         _id,
       });
-      
+
       if (!await property.findById()) {
         return res.status(404)
           .json({
@@ -222,6 +223,55 @@ class Property {
         status: 'Success',
         data: property.result,
       });
+    } catch (e) {
+      console.log(e);
+      res.status(500);
+    }
+  }
+
+  static async reportProperty(req, res) {
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_KEY);
+
+      const user_id = decoded._id;
+
+      const { property_id } = req.params;
+      const {
+        reason,
+        description,
+      } = req.body;
+
+      const _id = fraud.length + 1;
+
+      const property = new PropertyModel({
+        _id,
+        property_id,
+        user_id,
+        reason,
+        description,
+        created_on,
+      });
+      if (await property.findById()) {
+        return res.status(400)
+          .json({
+            status: 'Error',
+            data: 'You have already reported this property',
+          });
+      }
+
+      if (!await property.markFraud()) {
+        return res.status(404)
+          .json({
+            status: 'Error',
+            data: 'No property with that id found',
+          });
+      }
+      return res.status(201)
+        .json({
+          status: 'Success',
+          data: property.result,
+        });
     } catch (e) {
       console.log(e);
       res.status(500);

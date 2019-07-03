@@ -181,5 +181,31 @@ class Validations {
       console.log(e);
     }
   }
+
+  static async validateReport(req, res, next) {
+    try {
+      const schema = {
+        reason: Joi.string().min(10).max(20)
+          .required()
+          .error(() => 'reason is a required field with a min of 10 characters and a maximum of 20'),
+
+        description: Joi.string().min(10).max(100)
+          .required()
+          .error(() => 'description is a required field with a min of 10 characters and and a maximum of 50'),
+      };
+      const { error } = Joi.validate(req.body, schema);
+
+      if (error) {
+        return res.status(400)
+          .json({
+            status: 'error',
+            data: error.details[0].message,
+          });
+      }
+      next();
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
 export default Validations;

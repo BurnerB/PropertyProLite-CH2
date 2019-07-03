@@ -12,5 +12,6 @@ router.patch('/property/:property_id/sold', [auth, agent], Property.markSold);
 router.delete('/property/:property_id', [auth, agent], Property.deleteAdvert);
 router.get('/propertys', Property.allAdverts);
 router.get('/property', Property.specificType);
+router.patch('/property/:property_id/fraudulent', auth, Validation.validateReport, Property.reportProperty);
 
 export default router;

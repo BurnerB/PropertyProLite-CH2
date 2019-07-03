@@ -779,28 +779,28 @@ describe('/PROPERTY', () => {
   });
 
   describe('/PATCH property fraudulent', () => {
-    it('should successfully mark property as fraudulent', (done) => {
-      chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
-        .set('authorization', `Bearer ${userToken}`)
-        .send({
-          reason: 'fake picture',
-          description: 'The picture in the description does not match the actual property',
-        })
-        .end((err, res) => {
-          res.should.have.status(200);
-          if (err) return done();
-          done();
-        });
-    });
+    // it('should not mark property as fraudulent', (done) => {
+    //   chai.request(app)
+    //     .patch('/api/v1/property/1/fraudulent')
+    //     .set('authorization', `Bearer ${userToken}`)
+    //     .send({
+    //       reason: 'fake picture',
+	  //       description: 'picture does not match actual property',
+    //     })
+    //     .end((err, res) => {
+    //       res.should.have.status(201);
+    //       if (err) return done();
+    //       done();
+    //     });
+    // });
 
     it('should not mark property as fraudulent with no token', (done) => {
       chai.request(app)
         .patch('/api/v1/property/1/fraudulent')
-        .set('authorization', `Bearer ${userToken}`)
+        .set('authorization', ' ')
         .send({
           reason: 'fake picture',
-          description: 'The picture in the description does not match the actual property',
+	        description: 'picture does not match actual property',
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -814,7 +814,7 @@ describe('/PROPERTY', () => {
         .patch('/api/v1/property/1/fraudulent')
         .set('authorization', `Bearer ${userToken}`)
         .send({
-          reason: 'fake pictu@#$re',
+          reason: new Array(52).join('a'),
           description: 'The picture in the description does not match the actual property',
         })
         .end((err, res) => {
@@ -830,7 +830,7 @@ describe('/PROPERTY', () => {
         .set('authorization', `Bearer ${userToken}`)
         .send({
           reason: 'fake picture',
-          description: 'The pictur@#$e in the description does not match the actual property',
+          description: new Array(102).join('a'),
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -864,6 +864,21 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent with invalid property id', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/200/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: 'fake picture',
+          description: 'The picture in the description does not match the actual property',
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
           if (err) return done();
           done();
         });
