@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import moment from 'moment';
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import decode from '../helpers/decoded';
 import PropertyModel from '../models/propertyModel';
 import db from '../db/adverts';
 import fraud from '../db/fraudulent';
+import response from '../helpers/responses';
 
 
 dotenv.config();
@@ -46,23 +47,15 @@ class Property {
       });
 
       await newAdvert.createProperty();
-      res.status(201)
-        .json({
-          status: 'success',
-          data: newAdvert.result,
-        });
-      return;
+      return response.handleSuccess(201, newAdvert.result, res)
     } catch (e) {
-      console.log(e);
-      res.status(500);
+      return response.catchError(500, e.toString(), res);
     }
   }
 
   static async updateProperty(req, res) {
     try {
-      const token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_KEY);
-
+      const decoded = decode.decodeToken(req.headers.authorization);
       const user_id = decoded._id;
       const {
         type,
@@ -73,7 +66,6 @@ class Property {
         image_url,
       } = req.body;
       const _id = req.params.property_id;
-
       const property = new PropertyModel({
         _id,
         type,
@@ -85,26 +77,16 @@ class Property {
       });
 
       if (!await property.updateProperty() || (user_id !== property.result.owner)) {
-        return res.status(404)
-          .json({
-            status: 'Error',
-            data: 'You have no advert with that Id',
-          });
-      } return res.status(200)
-        .json({
-          status: 'Success',
-          data: property.result,
-        });
+        return response.handleError(404, 'You have no advert with that Id', res);
+      } return response.handleSuccess(200, property.result, res);
     } catch (e) {
-      console.log(e);
-      res.status(500);
+      return response.catchError(500, e.toString(), res);
     }
   }
 
   static async markSold(req, res) {
     try {
-      const token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_KEY);
+      const decoded = decode.decodeToken(req.headers.authorization);
 
       const user_id = decoded._id;
 
@@ -115,26 +97,16 @@ class Property {
       });
 
       if (!await property.markProperty() || (user_id !== property.result.owner)) {
-        return res.status(404)
-          .json({
-            status: 'Error',
-            data: 'You have no advert with that Id',
-          });
-      } return res.status(200)
-        .json({
-          status: 'Success',
-          data: property.result,
-        });
+        return response.handleError(404,'You have no advert with that Id', res);
+      } return response.handleSuccess(200, property.result, res);
     } catch (e) {
-      console.log(e);
-      res.status(500);
+      return response.catchError(500, e.toString(), res);
     }
   }
 
   static async deleteAdvert(req, res) {
     try {
-      const token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_KEY);
+      const decoded = decode.decodeToken(req.headers.authorization);
 
       const user_id = decoded._id;
 
@@ -145,19 +117,10 @@ class Property {
       });
 
       if (!await property.delete() || (user_id !== property.result.owner)) {
-        return res.status(404)
-          .json({
-            status: 'Error',
-            data: 'You have no advert with that Id',
-          });
-      } return res.status(200)
-        .json({
-          status: 'Success',
-          data: 'successfully deleted ',
-        });
+        return response.handleError(404,'You have no advert with that Id', res);
+      } return response.success(200, 'successfully deleted ', res);
     } catch (e) {
-      console.log(e);
-      res.status(500);
+      return response.catchError(500, e.toString(), res);
     }
   }
 
@@ -165,20 +128,11 @@ class Property {
     try {
       const allData = new PropertyModel();
       if (!await allData.allproperties()) {
-        return res.status(404)
-          .json({
-            status: 'Error',
-            data: allData.result,
-          });
+        return response.handleError(404,'No adverts found', res);
       }
-      return res.status(200)
-        .json({
-          status: 'Success',
-          data: allData.result,
-        });
+      return response.handleSuccess(200, allData.result, res);
     } catch (e) {
-      console.log(e);
-      res.status(500);
+      return response.catchError(500, e.toString(), res);
     }
   }
 
@@ -189,20 +143,11 @@ class Property {
 
       // return res.send(req.query)
       if (!await Type.searchbyType()) {
-        return res.status(404)
-          .json({
-            status: 'Error',
-            data: 'No property ads of that type found',
-          });
+        return response.handleError(404,'No property adverts of that type found', res);
       }
-      return res.status(200)
-        .json({
-          status: 'Success',
-          data: Type.result,
-        });
+      return response.handleSuccess(200, Type.result, res);
     } catch (e) {
-      console.log(e);
-      res.status(500);
+      return response.catchError(500, e.toString(), res);
     }
   }
 
@@ -214,33 +159,19 @@ class Property {
       });
 
       if (!await property.findById()) {
-        return res.status(404)
-          .json({
-            status: 'Error',
-            data: 'No property with that id found',
-          });
-      } return res.json({
-        status: 'Success',
-        data: property.result,
-      });
+        return response.handleError(404,'No property with that id found', res);
+      } return response.handleSuccess(200, property.result, res);
     } catch (e) {
-      console.log(e);
-      res.status(500);
+      return response.catchError(500, e.toString(), res);
     }
   }
 
   static async reportProperty(req, res) {
     try {
-      const token = req.headers.authorization.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_KEY);
-
+      const decoded = decode.decodeToken(req.headers.authorization);
       const user_id = decoded._id;
-
       const { property_id } = req.params;
-      const {
-        reason,
-        description,
-      } = req.body;
+      const { reason, description } = req.body;
 
       const _id = fraud.length + 1;
 
@@ -253,28 +184,14 @@ class Property {
         created_on,
       });
       if (await property.findById()) {
-        return res.status(400)
-          .json({
-            status: 'Error',
-            data: 'You have already reported this property',
-          });
+        return response.handleError(400,'You have already reported this property', res);
       }
-
       if (!await property.markFraud()) {
-        return res.status(404)
-          .json({
-            status: 'Error',
-            data: 'No property with that id found',
-          });
+        return response.handleError(404,'No property with that id found', res);
       }
-      return res.status(201)
-        .json({
-          status: 'Success',
-          data: property.result,
-        });
+      return response.handleSuccess(201, property.result, res);
     } catch (e) {
-      console.log(e);
-      res.status(500);
+      return response.catchError(500, e.toString(), res);
     }
   }
 }
