@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
 /* eslint-disable no-tabs */
 /* eslint-disable indent */
@@ -6,9 +7,8 @@ import _ from 'lodash';
 import UserModel from '../models/userModel';
 import db from '../db/users';
 import Token from '../helpers/token';
+import response from '../helpers/responses';
 
-
-// eslint-disable-next-line camelcase
 const is_Admin = false;
 
 
@@ -24,8 +24,6 @@ class Authentication {
         phoneNumber,
         is_Agent,
       } = req.body;
-
-      // eslint-disable-next-line no-underscore-dangle
       const _id = db.length + 1;
 
       const salt = await bcrypt.genSalt(10);
@@ -44,27 +42,13 @@ class Authentication {
       });
 
       if (!await newUser.registerUser()) {
-        res.status(409)
-          .json({
-            status: 'error',
-            data: 'The email has already been used to register',
-          });
-        return;
+        return response.handleError(409, 'The email has already been used to register', res);
       }
 
       const token = Token.genToken(_id, email, firstname, lastname, is_Agent, is_Admin, phoneNumber);
-
-      // You don't want the code to continue after you've done res.status().json({ }); because it will then try to send another response.
-      res.status(201)
-        .json({
-          status: 'success',
-          data: _.pick(newUser.result, ['_id', 'email', 'firstname', 'lastname', 'address', 'is_Agent', 'is_Admin']),
-                token,
-        });
-      return;
+      return response.authsuccess(201, 'success', token, newUser.result, res);
     } catch (e) {
-      console.log(e);
-      res.status(500);
+      return response.catchError(500, e.toString(), res);
     }
   }
 
@@ -74,35 +58,21 @@ class Authentication {
 			const user = new UserModel(email);
 
 			if (await user.findbyEmail()) {
-        // eslint-disable-next-line no-underscore-dangle
+  
         const {
+            // eslint-disable-next-line no-shadow
             _id, firstname, lastname, is_Admin, is_Agent, phoneNumber,
         } = user.result;
 
 				if (bcrypt.compareSync(password, user.result.password)) {
             const token = Token.genToken(_id, email, firstname, lastname, is_Agent, is_Admin, phoneNumber);
-				    res.status(200)
-                .json({
-                        status: 'success',
-                        data: _.pick(user.result, ['_id', 'email', 'firstname', 'lastname', 'is_Agent', 'is_Admin']),
-                            token,
-                      });
-        return;
-        }res.status(401)
-            .json({
-                  status: 'Error',
-                  data: 'Incorrect password Email combination',
-                });
-        return;
-			}res.status(400)
-                .json({
-                        status: 'Error',
-                        data: 'email not found sign up to create an account',
-                      });
-                      return;
+				    return response.authsuccess(200, 'success', token, user.result, res);
+        }
+        return response.handleError(401, 'Incorrect password Email combination', res);
+
+      } return response.handleError(400, 'Email not found, sign up to create an account', res);
 		} catch (e) {
-            console.log(e);
-            res.status(500);
+      return response.catchError(500, e.toString(), res);
 		}
   }
 
@@ -112,19 +82,11 @@ class Authentication {
 
       const user = new UserModel(email);
       if (!await user.findbyEmail()) {
-        return res.status(404)
-              .json({
-                    status: 'Error',
-                    data: 'No account with this email found',
-                  });
-      } return res.status(200)
-                .json({
-                        status: 'success',
-                        data: 'Details on password reset have been sent to your email address',
-                      });
+        return response.handleError(400, 'No account with this email found', res);
+
+      } return response.success(200, 'Details on password reset have been sent to your email address', res);
 		} catch (e) {
-            console.log(e);
-            res.status(500);
+      return response.catchError(500, e.toString(), res);
 		}
   }
 }

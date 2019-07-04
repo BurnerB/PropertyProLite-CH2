@@ -1,6 +1,6 @@
 import express from 'express';
 import Property from '../controllers/propertyEndpoints';
-import Validation from '../middleware/validation';
+import Validation from '../middleware/advertValidation';
 import auth from '../middleware/auth';
 import agent from '../middleware/agent';
 
@@ -12,6 +12,7 @@ router.patch('/property/:property_id/sold', [auth, agent], Property.markSold);
 router.delete('/property/:property_id', [auth, agent], Property.deleteAdvert);
 router.get('/propertys', Property.allAdverts);
 router.get('/property', Property.specificType);
+router.get('/property/:property_id', Property.specificAdvert);
 router.patch('/property/:property_id/fraudulent', auth, Validation.validateReport, Property.reportProperty);
 
 export default router;

@@ -2,6 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../app';
 
+const { expect } = chai;
 chai.should();
 chai.use(chaiHttp);
 
@@ -40,6 +41,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Email is a required field and must be valid');
           if (err) return done();
           done();
         });
@@ -59,6 +61,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Firstname is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -78,6 +81,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Lastname is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -97,6 +101,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Password is a required field with a min of 5 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -116,6 +121,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('phoneNumber is a required field with a min of 10 numbers and no special chars or letters');
           if (err) return done();
           done();
         });
@@ -135,6 +141,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Address is a required field with a min of 5 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -154,6 +161,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('is_Agent is a required field and can only be true or false');
           if (err) return done();
           done();
         });
@@ -173,6 +181,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(409);
+          expect(res.body.message).equals('The email has already been used to register');
           if (err) return done();
           done();
         });
@@ -192,6 +201,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Email is a required field and must be valid');
           if (err) return done();
           done();
         });
@@ -211,6 +221,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Firstname is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -230,6 +241,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Lastname is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -239,8 +251,8 @@ describe('/Authen', () => {
       chai.request(app)
         .post('/api/v1/auth/signup')
         .send({
-          email: 'johndoegmail.com',
-          firstname: 'John123',
+          email: 'johndoe@gmail.com',
+          firstname: 'John',
           lastname: 'Ndomimi',
           password: 'abu12340000000000000000000',
           phoneNumber: '0700000000',
@@ -249,6 +261,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Password is a required field with a min of 5 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -258,8 +271,8 @@ describe('/Authen', () => {
       chai.request(app)
         .post('/api/v1/auth/signup')
         .send({
-          email: 'johndoegmail.com',
-          firstname: 'John123',
+          email: 'johndoe@gmail.com',
+          firstname: 'John',
           lastname: 'Ndomimi',
           password: 'abu1234',
           phoneNumber: '+25470000ad00',
@@ -268,6 +281,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('phoneNumber is a required field with a min of 10 numbers and no special chars or letters');
           if (err) return done();
           done();
         });
@@ -277,8 +291,8 @@ describe('/Authen', () => {
       chai.request(app)
         .post('/api/v1/auth/signup')
         .send({
-          email: 'johndoegmail.com',
-          firstname: 'John123',
+          email: 'johndoe@gmail.com',
+          firstname: 'John',
           lastname: 'Ndomimi',
           password: 'abu1234',
           phoneNumber: '+25470000ad00',
@@ -287,6 +301,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Address is a required field with a min of 5 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -296,16 +311,17 @@ describe('/Authen', () => {
       chai.request(app)
         .post('/api/v1/auth/signup')
         .send({
-          email: 'johndoegmail.com',
-          firstname: 'John123',
+          email: 'johndoe@gmail.com',
+          firstname: 'John',
           lastname: 'Ndomimi',
           password: 'abu1234',
-          phoneNumber: '+25470000ad00',
+          phoneNumber: '0700000000',
           address: 'Kenya',
           is_Agent: 'maybe',
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('is_Agent is a required field and can only be true or false');
           if (err) return done();
           done();
         });
@@ -335,6 +351,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Email is a required field and must be valid');
           if (err) return done();
           done();
         });
@@ -349,6 +366,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Password is a required field with a min of 5 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -363,6 +381,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
+          expect(res.body.message).equals('Incorrect password Email combination');
           if (err) return done();
           done();
         });
@@ -377,6 +396,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.message).equals('Email not found, sign up to create an account');
           if (err) return done();
           done();
         });
@@ -391,6 +411,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Email is a required field and must be valid');
           if (err) return done();
           done();
         });
@@ -400,11 +421,12 @@ describe('/Authen', () => {
       chai.request(app)
         .post('/api/v1/auth/login')
         .send({
-          email: 'janedoegmail.com',
+          email: 'janedoe@gmail.com',
           password: 'abu1234000000000000000',
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Password is a required field with a min of 5 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -435,6 +457,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Email is a required field and must be valid');
           if (err) return done();
           done();
         });
@@ -449,6 +472,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('phoneNumber is an opional field with a min of 10 numbers and no special chars or letters');
           if (err) return done();
           done();
         });
@@ -463,6 +487,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('phoneNumber is an opional field with a min of 10 numbers and no special chars or letters');
           if (err) return done();
           done();
         });
@@ -477,6 +502,7 @@ describe('/Authen', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Email is a required field and must be valid');
           if (err) return done();
           done();
         });

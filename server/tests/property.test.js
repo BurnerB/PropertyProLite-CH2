@@ -3,6 +3,7 @@ import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
 import app from '../../app';
 
+const { expect } = chai;
 chai.should();
 chai.use(chaiHttp);
 
@@ -59,7 +60,7 @@ describe('/PROPERTY', () => {
         });
     });
 
-    it('should not post a property advert with invalid token', (done) => {
+    it('should not post a property advert with forbidden token', (done) => {
       chai.request(app)
         .post('/api/v1/property')
         .set('authorization', `Bearer ${userToken}`)
@@ -74,6 +75,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(403);
+          expect(res.body.data).equals('ACCESS DENIED! Not an Agent');
           if (err) return done();
           done();
         });
@@ -94,6 +96,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
+          expect(res.body.message).equals('ACCESS DENIED! No token provided');
           if (err) return done();
           done();
         });
@@ -114,6 +117,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Status is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -134,6 +138,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Price is a required field with no special chars or alphabets');
           if (err) return done();
           done();
         });
@@ -154,6 +159,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('State is a required field with a min of 3 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -174,6 +180,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('City is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -194,6 +201,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -214,6 +222,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Type is a required field with a min of 3 chars and no special characters');
           if (err) return done();
           done();
         });
@@ -234,6 +243,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Image_Url is a required field and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -254,6 +264,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Status is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -274,6 +285,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Price is a required field with no special chars or alphabets');
           if (err) return done();
           done();
         });
@@ -294,6 +306,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('State is a required field with a min of 3 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -314,6 +327,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('City is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -334,6 +348,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -348,12 +363,13 @@ describe('/PROPERTY', () => {
           price: 5000000,
           state: 'Nairobi',
           city: 'Nairobi',
-          address: '  Kenya',
-          type: ' @#%@',
+          address: 'Kenya',
+          type: new Array(100).join('a'),
           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Type is a required field with a min of 3 chars and no special characters');
           if (err) return done();
           done();
         });
@@ -374,6 +390,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Image_Url is a required field and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -414,6 +431,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
+          expect(res.body.message).equals('ACCESS DENIED! No token provided');
           if (err) return done();
           done();
         });
@@ -433,6 +451,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(403);
+          expect(res.body.data).equals('ACCESS DENIED! Not an Agent');
           if (err) return done();
           done();
         });
@@ -452,6 +471,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(404);
+          expect(res.body.message).equals('You have no advert with that Id');
           if (err) return done();
           done();
         });
@@ -471,6 +491,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Price is a required field with no special chars or alphabets');
           if (err) return done();
           done();
         });
@@ -490,6 +511,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('State is a required field with a min of 3 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -509,6 +531,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('City is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -528,6 +551,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -547,6 +571,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Type is a required field with a min of 3 chars and no special characters');
           if (err) return done();
           done();
         });
@@ -566,6 +591,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Image_Url is a required field and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -581,10 +607,11 @@ describe('/PROPERTY', () => {
           city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
-          image_url: 'kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Price is a required field with no special chars or alphabets');
           if (err) return done();
           done();
         });
@@ -600,10 +627,11 @@ describe('/PROPERTY', () => {
           city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
-          image_url: 'kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('State is a required field with a min of 3 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -619,10 +647,11 @@ describe('/PROPERTY', () => {
           city: '',
           address: 'Kenya',
           type: '2 bedroom',
-          image_url: 'kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('City is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -638,10 +667,11 @@ describe('/PROPERTY', () => {
           city: 'Nairobi',
           address: '',
           type: '2 bedroom',
-          image_url: 'kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -656,11 +686,12 @@ describe('/PROPERTY', () => {
           state: 'Nairobi',
           city: 'Nairobi',
           address: 'Kenya',
-          type: '2 bedroom',
-          image_url: 'kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+          type: ' ',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Type is a required field with a min of 3 chars and no special characters');
           if (err) return done();
           done();
         });
@@ -680,6 +711,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          expect(res.body.data).equals('Image_Url is a required field and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -704,6 +736,7 @@ describe('/PROPERTY', () => {
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
+          expect(res.body.message).equals('ACCESS DENIED! No token provided');
           if (err) return done();
           done();
         });
@@ -715,6 +748,8 @@ describe('/PROPERTY', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
+          res.should.have.status(403);
+          expect(res.body.data).equals('ACCESS DENIED! Not an Agent');
           if (err) return done();
           done();
         });
@@ -726,12 +761,162 @@ describe('/PROPERTY', () => {
         .set('authorization', `Bearer ${agentToken}`)
         .end((err, res) => {
           res.should.have.status(404);
+          expect(res.body.message).equals('You have no advert with that Id');
           if (err) return done();
           done();
         });
     });
   });
 
+  describe('/PATCH property fraudulent', () => {
+    it('should mark property as fraudulent', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: 'fake picture',
+	        description: 'picture does not match actual property',
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent with no token', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', ' ')
+        .send({
+          reason: 'fake picture',
+	        description: 'picture does not match actual property',
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          expect(res.body.message).equals('ACCESS DENIED! No token provided');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent with invalid reason', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: new Array(52).join('a'),
+          description: 'The picture in the description does not match the actual property',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.data).equals('reason is a required field with a min of 10 characters and a maximum of 20');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent with invalid description', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: 'fake picture',
+          description: new Array(102).join('a'),
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.data).equals('description is a required field with a min of 10 characters and and a maximum of 50');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent wih no reason', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: ' ',
+          description: 'The pictur@#$e in the description does not match the actual property',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.data).equals('reason is a required field with a min of 10 characters and a maximum of 20');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent with no description', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/1/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: 'fake picture',
+          description: ' ',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.data).equals('description is a required field with a min of 10 characters and and a maximum of 50');
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should not mark property as fraudulent with invalid property id', (done) => {
+      chai.request(app)
+        .patch('/api/v1/property/200/fraudulent')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          reason: 'fake picture',
+          description: 'The picture in the description does not match the actual property',
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          expect(res.body.message).equals('No property with that id found');
+          if (err) return done();
+          done();
+        });
+    });
+  });
+
+  describe('/GET specific property', () => {
+    it('should return an error no advert of that id exists', (done) => {
+      chai.request(app)
+        .get('/api/v1/property/2')
+        .end((err, res) => {
+          res.should.have.status(404);
+          expect(res.body.message).equals('No property with that id found');
+          if (err) return done();
+          done();
+        });
+    });
+  });
+
+  describe('/GET specific type', () => {
+    it('should return an error no advert of that type exists', (done) => {
+      chai.request(app)
+        .get('/api/v1/property?type=2 bedrom')
+        .end((err, res) => {
+          expect(res.body.message).equals('No property adverts of that type found');
+          res.should.have.status(404);
+          if (err) return done();
+          done();
+        });
+    });
+
+    it('should successfully return an adverts of that type exists', (done) => {
+      chai.request(app)
+        .get('/api/v1/property?type=2 bedroom')
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
+  });
+  
   describe('/DELETE property', () => {
     it('should successfully delete a  property advert', (done) => {
       chai.request(app)
@@ -750,6 +935,7 @@ describe('/PROPERTY', () => {
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
+          expect(res.body.message).equals('ACCESS DENIED! No token provided');
           if (err) return done();
           done();
         });
@@ -761,6 +947,7 @@ describe('/PROPERTY', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
+          expect(res.body.data).equals('ACCESS DENIED! Not an Agent');
           if (err) return done();
           done();
         });
@@ -771,6 +958,7 @@ describe('/PROPERTY', () => {
         .delete('/api/v1/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .end((err, res) => {
+          expect(res.body.message).equals('You have no advert with that Id');
           res.should.have.status(404);
           if (err) return done();
           done();
@@ -778,110 +966,18 @@ describe('/PROPERTY', () => {
     });
   });
 
-  describe('/PATCH property fraudulent', () => {
-    // it('should not mark property as fraudulent', (done) => {
-    //   chai.request(app)
-    //     .patch('/api/v1/property/1/fraudulent')
-    //     .set('authorization', `Bearer ${userToken}`)
-    //     .send({
-    //       reason: 'fake picture',
-	  //       description: 'picture does not match actual property',
-    //     })
-    //     .end((err, res) => {
-    //       res.should.have.status(201);
-    //       if (err) return done();
-    //       done();
-    //     });
-    // });
-
-    it('should not mark property as fraudulent with no token', (done) => {
+  describe('/GET all properties', () => {
+    it('should return an error message if no adverts exist', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
-        .set('authorization', ' ')
-        .send({
-          reason: 'fake picture',
-	        description: 'picture does not match actual property',
-        })
+        .get('/api/v1/propertys')
         .end((err, res) => {
-          res.should.have.status(401);
-          if (err) return done();
-          done();
-        });
-    });
-
-    it('should not mark property as fraudulent with invalid reason', (done) => {
-      chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
-        .set('authorization', `Bearer ${userToken}`)
-        .send({
-          reason: new Array(52).join('a'),
-          description: 'The picture in the description does not match the actual property',
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          if (err) return done();
-          done();
-        });
-    });
-
-    it('should not mark property as fraudulent with invalid description', (done) => {
-      chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
-        .set('authorization', `Bearer ${userToken}`)
-        .send({
-          reason: 'fake picture',
-          description: new Array(102).join('a'),
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          if (err) return done();
-          done();
-        });
-    });
-
-    it('should not mark property as fraudulent wih no reason', (done) => {
-      chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
-        .set('authorization', `Bearer ${userToken}`)
-        .send({
-          reason: ' ',
-          description: 'The pictur@#$e in the description does not match the actual property',
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          if (err) return done();
-          done();
-        });
-    });
-
-    it('should not mark property as fraudulent with no description', (done) => {
-      chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
-        .set('authorization', `Bearer ${userToken}`)
-        .send({
-          reason: 'fake picture',
-          description: ' ',
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          if (err) return done();
-          done();
-        });
-    });
-
-    it('should not mark property as fraudulent with invalid property id', (done) => {
-      chai.request(app)
-        .patch('/api/v1/property/200/fraudulent')
-        .set('authorization', `Bearer ${userToken}`)
-        .send({
-          reason: 'fake picture',
-          description: 'The picture in the description does not match the actual property',
-        })
-        .end((err, res) => {
+          expect(res.body.message).equals('No adverts found');
           res.should.have.status(404);
           if (err) return done();
           done();
         });
     });
   });
+
+  
 });
