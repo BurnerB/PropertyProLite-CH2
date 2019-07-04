@@ -18,10 +18,10 @@ routes(app);
 dotenv.config();
 
 app.get('/', (req, res) => {
-    res.status(200).json({ message: 'hello world!! Your app is working' });
+    res.json({ message: 'hello world!! Your app is working' });
 });
 
 
-app.listen(port, ()=> console.log(`Listening on port ${port}...`));
+app.listen(port, () => console.log(`Listening on port ${port}...`));
 
 export default app;
