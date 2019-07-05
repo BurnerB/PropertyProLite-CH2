@@ -9,6 +9,9 @@
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls ",
     "build": "babel src -d lib"
   },
+  "engines":{
+    "node":"10.15.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BurnerB/PropertyProLite-CH2.git"
