@@ -1,10 +1,15 @@
 import express from 'express';
+import fileUpload from 'express-fileupload';
 import Property from '../controllers/propertyEndpoints';
 import Validation from '../middleware/advertValidation';
 import auth from '../middleware/auth';
 import agent from '../middleware/agent';
 
 const router = express.Router();
+router.use(fileUpload({
+  useTempFiles: true,
+}));
+
 
 router.post('/property', [auth, agent], Validation.validateProperty, Property.postProperty);
 router.patch('/property/:property_id', [auth, agent], Validation.validateUpdateProperty, Property.updateProperty);
