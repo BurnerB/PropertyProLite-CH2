@@ -7,6 +7,7 @@ import PropertyModel from '../models/propertyModel';
 import db from '../db/adverts';
 import fraud from '../db/fraudulent';
 import response from '../helpers/responses';
+import uploader from '../helpers/uploader';
 
 
 dotenv.config();
@@ -23,13 +24,17 @@ class Property {
         city,
         price,
         address,
-        image_url,
       } = req.body;
 
       const _id = db.length + 1;
       const owner = req.user._id;
       const ownerEmail = req.user.email;
       const ownerPhoneNumber = req.user.phoneNumber;
+      const image = req.files.image_url;
+      const image_url = await uploader(image);
+      if (!image_url) {
+        return response.handleError(400 , 'Cannot upload image', res);
+      }
 
       const newAdvert = new PropertyModel({
         _id,
@@ -49,9 +54,9 @@ class Property {
       await newAdvert.createProperty();
       return response.handleSuccess(201, newAdvert.result, res)
     } catch (e) {
-      return response.catchError(500, e.toString(), res);
+      return response.handleError(400 , 'Image_url is a required field', res);
     }
-  }
+}
 
   static async updateProperty(req, res) {
     try {
@@ -97,7 +102,7 @@ class Property {
       });
 
       if (!await property.markProperty() || (user_id !== property.result.owner)) {
-        return response.handleError(404,'You have no advert with that Id', res);
+        return response.handleError(404, 'You have no advert with that Id', res);
       } return response.handleSuccess(200, property.result, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
@@ -117,7 +122,7 @@ class Property {
       });
 
       if (!await property.delete() || (user_id !== property.result.owner)) {
-        return response.handleError(404,'You have no advert with that Id', res);
+        return response.handleError(404, 'You have no advert with that Id', res);
       } return response.success(200, 'successfully deleted ', res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
@@ -128,7 +133,7 @@ class Property {
     try {
       const allData = new PropertyModel();
       if (!await allData.allproperties()) {
-        return response.handleError(404,'No adverts found', res);
+        return response.handleError(404, 'No adverts found', res);
       }
       return response.handleSuccess(200, allData.result, res);
     } catch (e) {
@@ -143,7 +148,7 @@ class Property {
 
       // return res.send(req.query)
       if (!await Type.searchbyType()) {
-        return response.handleError(404,'No property adverts of that type found', res);
+        return response.handleError(404, 'No property adverts of that type found', res);
       }
       return response.handleSuccess(200, Type.result, res);
     } catch (e) {
@@ -159,7 +164,7 @@ class Property {
       });
 
       if (!await property.findById()) {
-        return response.handleError(404,'No property with that id found', res);
+        return response.handleError(404, 'No property with that id found', res);
       } return response.handleSuccess(200, property.result, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
@@ -184,10 +189,10 @@ class Property {
         created_on,
       });
       if (await property.findById()) {
-        return response.handleError(400,'You have already reported this property', res);
+        return response.handleError(400, 'You have already reported this property', res);
       }
       if (!await property.markFraud()) {
-        return response.handleError(404,'No property with that id found', res);
+        return response.handleError(404, 'No property with that id found', res);
       }
       return response.handleSuccess(201, property.result, res);
     } catch (e) {
