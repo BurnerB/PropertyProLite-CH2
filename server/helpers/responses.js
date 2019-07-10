@@ -1,7 +1,7 @@
 class Responses {
   static authsuccess(statusCode, message, token, data, res) {
     res.status(statusCode).json({
-      status: message,
+      status: statusCode,
       data,
       token,
     });
@@ -9,36 +9,36 @@ class Responses {
 
   static handleSuccess(statusCode, data, res) {
     res.status(statusCode).json({
-      status: 'success',
+      status: statusCode ,
       data,
     });
   }
 
   static success(statusCode, message, res) {
     res.status(statusCode).json({
-      status: 'success',
-      message,
+      status: statusCode,
+      data: message,
     });
   }
 
   static handleError(statusCode, message, res) {
     res.status(statusCode).json({
-      status: 'Error',
-      message,
+      status: statusCode,
+      error: message,
     });
   }
 
   static validationError(statusCode, data, res) {
     res.status(statusCode).json({
-      status: 'Error',
-      data,
+      status: statusCode,
+      error: data,
     });
   }
 
   static catchError(statusCode, data, res) {
     res.status(statusCode).json({
-      status: 'Error',
-      data,
+      status: statusCode,
+      error: data,
     });
   }
 
