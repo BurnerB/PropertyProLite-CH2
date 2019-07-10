@@ -51,7 +51,7 @@ describe('/PROPERTY', () => {
           city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
-          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+          image_url: 'change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(201);
