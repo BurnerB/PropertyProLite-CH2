@@ -27,8 +27,6 @@ class Validations {
           .required()
           .error(() => 'Address is a required field with a min of 3 chars and no special chars or numbers'),
 
-        image_url: Joi.string().uri().required().error(() => 'Image_Url is a required field and no special chars or numbers'),
-
       };
       const { error } = Joi.validate(req.body, schema);
 
@@ -61,7 +59,7 @@ class Validations {
           .required()
           .error(() => 'Address is a required field with a min of 3 chars and no special chars or numbers'),
 
-        image_url: Joi.string().uri().required().error(() => 'Image_Url is a required field and no special chars or numbers'),
+        image_url: Joi.required().error(() => 'Image_Url is a required field and no special chars or numbers'),
 
       };
       const { error } = Joi.validate(req.body, schema);
