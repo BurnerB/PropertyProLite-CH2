@@ -9,6 +9,10 @@ import routes from './server/routes';
 const app = express();
 const port = process.env.PORT || 5000;
 
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+console.log(`app: ${app.get('env')}`);
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true,
