@@ -30,7 +30,7 @@ class Property {
       const owner = req.user._id;
       const ownerEmail = req.user.email;
       const ownerPhoneNumber = req.user.phoneNumber;
-      const image = req.files.image_url;
+      const image = req.files.photo;
       const image_url = await uploader(image);
       if (!image_url) {
         return response.handleError(400 , 'Cannot upload image', res);
