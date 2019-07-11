@@ -11,7 +11,6 @@ import uploader from '../helpers/uploader';
 
 
 dotenv.config();
-
 const created_on = moment().format('MMMM Do YYYY, h:mm:ss a');
 
 class Property {
@@ -31,6 +30,9 @@ class Property {
       const owner = req.user._id;
       const ownerEmail = req.user.email;
       const ownerPhoneNumber = req.user.phoneNumber;
+      if (!req.files) {
+        return response.handleError(400, 'Image should not be empty', res);
+      }
       const image = req.files.photo;
       if (process.env.NODE_ENV !== 'test') {
         image_url = await uploader(image);
