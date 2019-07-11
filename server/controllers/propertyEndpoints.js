@@ -26,15 +26,19 @@ class Property {
         address,
       } = req.body;
 
+      let image_url;
       const _id = db.length + 1;
       const owner = req.user._id;
       const ownerEmail = req.user.email;
       const ownerPhoneNumber = req.user.phoneNumber;
       const image = req.files.photo;
-      const image_url = await uploader(image);
-      if (!image_url) {
-        return response.handleError(400 , 'Cannot upload image', res);
+      if (process.env.NODE_ENV !== 'test') {
+        image_url = await uploader(image);
+        if (!image_url) {
+          return response.handleError(400, 'Cannot upload image', res);
+        }
       }
+
 
       const newAdvert = new PropertyModel({
         _id,
@@ -52,11 +56,11 @@ class Property {
       });
 
       await newAdvert.createProperty();
-      return response.handleSuccess(201, newAdvert.result, res)
+      return response.handleSuccess(201, newAdvert.result, res);
     } catch (e) {
-      return response.handleError(400 , 'Image_url is a required field', res);
+      return response.catchError(500, e.toString(), res);
     }
-}
+  }
 
   static async updateProperty(req, res) {
     try {

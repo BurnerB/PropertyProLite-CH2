@@ -9,6 +9,7 @@ chai.use(chaiHttp);
 
 let userToken;
 let agentToken;
+let testImage= './server/tests/test.jpg';
 
 describe('/PROPERTY', () => {
   before('generate JWT', (done) => {
@@ -44,14 +45,14 @@ describe('/PROPERTY', () => {
       chai.request(app)
         .post('/api/v1/property')
         .set('authorization', `Bearer ${agentToken}`)
-        .send({
+        .attach('image_url',testImage)
+        .field({
           status: 'Available',
           price: 5000000,
           state: 'Nairobi',
           city: 'Nairobi',
           address: 'Kenya',
-          type: '2 bedroom',
-          image_url: 'change-wordpress-url-1.png',
+          type: '2 bedroom'
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -75,7 +76,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(403);
-          expect(res.body.data).equals('ACCESS DENIED! Not an Agent');
+          expect(res.body.error).equals('ACCESS DENIED! Not an Agent');
           if (err) return done();
           done();
         });
@@ -96,7 +97,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
-          expect(res.body.message).equals('ACCESS DENIED! No token provided');
+          expect(res.body.error).equals('ACCESS DENIED! No token provided');
           if (err) return done();
           done();
         });
@@ -117,7 +118,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Status is a required field with a min of 3 chars and no special chars or numbers');
+          expect(res.body.error).equals('Status is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -138,7 +139,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Price is a required field with no special chars or alphabets');
+          expect(res.body.error).equals('Price is a required field with no special chars or alphabets');
           if (err) return done();
           done();
         });
@@ -159,7 +160,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('State is a required field with a min of 3 chars and no special chars');
+          expect(res.body.error).equals('State is a required field with a min of 3 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -180,7 +181,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('City is a required field with a min of 3 chars and no special chars or numbers');
+          expect(res.body.error).equals('City is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -201,7 +202,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
+          expect(res.body.error).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -222,7 +223,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Type is a required field with a min of 3 chars and no special characters');
+          expect(res.body.error).equals('Type is a required field with a min of 3 chars and no special characters');
           if (err) return done();
           done();
         });
@@ -243,7 +244,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Image_Url is a required field and no special chars or numbers');
+          expect(res.body.error).equals('"image_url" is not allowed');
           if (err) return done();
           done();
         });
@@ -264,7 +265,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Status is a required field with a min of 3 chars and no special chars or numbers');
+          expect(res.body.error).equals('Status is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -285,7 +286,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Price is a required field with no special chars or alphabets');
+          expect(res.body.error).equals('Price is a required field with no special chars or alphabets');
           if (err) return done();
           done();
         });
@@ -306,7 +307,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('State is a required field with a min of 3 chars and no special chars');
+          expect(res.body.error).equals('State is a required field with a min of 3 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -327,7 +328,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('City is a required field with a min of 3 chars and no special chars or numbers');
+          expect(res.body.error).equals('City is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -348,7 +349,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
+          expect(res.body.error).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -369,7 +370,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Type is a required field with a min of 3 chars and no special characters');
+          expect(res.body.error).equals('Type is a required field with a min of 3 chars and no special characters');
           if (err) return done();
           done();
         });
@@ -390,7 +391,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Image_Url is a required field and no special chars or numbers');
+          expect(res.body.error).equals('"image_url" is not allowed');
           if (err) return done();
           done();
         });
@@ -408,7 +409,6 @@ describe('/PROPERTY', () => {
           city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
-          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -431,7 +431,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
-          expect(res.body.message).equals('ACCESS DENIED! No token provided');
+          expect(res.body.error).equals('ACCESS DENIED! No token provided');
           if (err) return done();
           done();
         });
@@ -451,7 +451,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(403);
-          expect(res.body.data).equals('ACCESS DENIED! Not an Agent');
+          expect(res.body.error).equals('ACCESS DENIED! Not an Agent');
           if (err) return done();
           done();
         });
@@ -467,11 +467,10 @@ describe('/PROPERTY', () => {
           city: 'Nairobi',
           address: 'Kenya',
           type: '2 bedroom',
-          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
         })
         .end((err, res) => {
           res.should.have.status(404);
-          expect(res.body.message).equals('You have no advert with that Id');
+          expect(res.body.error).equals('You have no advert with that Id');
           if (err) return done();
           done();
         });
@@ -491,7 +490,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Price is a required field with no special chars or alphabets');
+          expect(res.body.error).equals('Price is a required field with no special chars or alphabets');
           if (err) return done();
           done();
         });
@@ -511,7 +510,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('State is a required field with a min of 3 chars and no special chars');
+          expect(res.body.error).equals('State is a required field with a min of 3 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -531,7 +530,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('City is a required field with a min of 3 chars and no special chars or numbers');
+          expect(res.body.error).equals('City is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -551,7 +550,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
+          expect(res.body.error).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -571,7 +570,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Type is a required field with a min of 3 chars and no special characters');
+          expect(res.body.error).equals('Type is a required field with a min of 3 chars and no special characters');
           if (err) return done();
           done();
         });
@@ -591,7 +590,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Image_Url is a required field and no special chars or numbers');
+          expect(res.body.error).equals('"image_url" is not allowed');
           if (err) return done();
           done();
         });
@@ -611,7 +610,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Price is a required field with no special chars or alphabets');
+          expect(res.body.error).equals('Price is a required field with no special chars or alphabets');
           if (err) return done();
           done();
         });
@@ -631,7 +630,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('State is a required field with a min of 3 chars and no special chars');
+          expect(res.body.error).equals('State is a required field with a min of 3 chars and no special chars');
           if (err) return done();
           done();
         });
@@ -651,7 +650,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('City is a required field with a min of 3 chars and no special chars or numbers');
+          expect(res.body.error).equals('City is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -671,7 +670,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
+          expect(res.body.error).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
           if (err) return done();
           done();
         });
@@ -691,7 +690,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Type is a required field with a min of 3 chars and no special characters');
+          expect(res.body.error).equals('Type is a required field with a min of 3 chars and no special characters');
           if (err) return done();
           done();
         });
@@ -711,7 +710,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('Image_Url is a required field and no special chars or numbers');
+          expect(res.body.error).equals('"image_url" is not allowed');
           if (err) return done();
           done();
         });
@@ -736,7 +735,7 @@ describe('/PROPERTY', () => {
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
-          expect(res.body.message).equals('ACCESS DENIED! No token provided');
+          expect(res.body.error).equals('ACCESS DENIED! No token provided');
           if (err) return done();
           done();
         });
@@ -748,8 +747,7 @@ describe('/PROPERTY', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
-          res.should.have.status(403);
-          expect(res.body.data).equals('ACCESS DENIED! Not an Agent');
+          expect(res.body.error).equals('ACCESS DENIED! Not an Agent');
           if (err) return done();
           done();
         });
@@ -761,7 +759,7 @@ describe('/PROPERTY', () => {
         .set('authorization', `Bearer ${agentToken}`)
         .end((err, res) => {
           res.should.have.status(404);
-          expect(res.body.message).equals('You have no advert with that Id');
+          expect(res.body.error).equals('You have no advert with that Id');
           if (err) return done();
           done();
         });
@@ -794,7 +792,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
-          expect(res.body.message).equals('ACCESS DENIED! No token provided');
+          expect(res.body.error).equals('ACCESS DENIED! No token provided');
           if (err) return done();
           done();
         });
@@ -810,7 +808,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('reason is a required field with a min of 10 characters and a maximum of 20');
+          expect(res.body.error).equals('reason is a required field with a min of 10 characters and a maximum of 20');
           if (err) return done();
           done();
         });
@@ -826,7 +824,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('description is a required field with a min of 10 characters and and a maximum of 50');
+          expect(res.body.error).equals('description is a required field with a min of 10 characters and and a maximum of 50');
           if (err) return done();
           done();
         });
@@ -842,7 +840,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('reason is a required field with a min of 10 characters and a maximum of 20');
+          expect(res.body.error).equals('reason is a required field with a min of 10 characters and a maximum of 20');
           if (err) return done();
           done();
         });
@@ -858,7 +856,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          expect(res.body.data).equals('description is a required field with a min of 10 characters and and a maximum of 50');
+          expect(res.body.error).equals('description is a required field with a min of 10 characters and and a maximum of 50');
           if (err) return done();
           done();
         });
@@ -874,7 +872,7 @@ describe('/PROPERTY', () => {
         })
         .end((err, res) => {
           res.should.have.status(404);
-          expect(res.body.message).equals('No property with that id found');
+          expect(res.body.error).equals('No property with that id found');
           if (err) return done();
           done();
         });
@@ -887,7 +885,7 @@ describe('/PROPERTY', () => {
         .get('/api/v1/property/2')
         .end((err, res) => {
           res.should.have.status(404);
-          expect(res.body.message).equals('No property with that id found');
+          expect(res.body.error).equals('No property with that id found');
           if (err) return done();
           done();
         });
@@ -899,7 +897,7 @@ describe('/PROPERTY', () => {
       chai.request(app)
         .get('/api/v1/property?type=2 bedrom')
         .end((err, res) => {
-          expect(res.body.message).equals('No property adverts of that type found');
+          expect(res.body.error).equals('No property adverts of that type found');
           res.should.have.status(404);
           if (err) return done();
           done();
@@ -935,7 +933,7 @@ describe('/PROPERTY', () => {
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
-          expect(res.body.message).equals('ACCESS DENIED! No token provided');
+          expect(res.body.error).equals('ACCESS DENIED! No token provided');
           if (err) return done();
           done();
         });
@@ -947,7 +945,7 @@ describe('/PROPERTY', () => {
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
-          expect(res.body.data).equals('ACCESS DENIED! Not an Agent');
+          expect(res.body.error).equals('ACCESS DENIED! Not an Agent');
           if (err) return done();
           done();
         });
@@ -958,7 +956,7 @@ describe('/PROPERTY', () => {
         .delete('/api/v1/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .end((err, res) => {
-          expect(res.body.message).equals('You have no advert with that Id');
+          expect(res.body.error).equals('You have no advert with that Id');
           res.should.have.status(404);
           if (err) return done();
           done();
@@ -969,9 +967,9 @@ describe('/PROPERTY', () => {
   describe('/GET all properties', () => {
     it('should return an error message if no adverts exist', (done) => {
       chai.request(app)
-        .get('/api/v1/propertys')
+        .get('/api/v1/properties')
         .end((err, res) => {
-          expect(res.body.message).equals('No adverts found');
+          expect(res.body.error).equals('No adverts found');
           res.should.have.status(404);
           if (err) return done();
           done();
