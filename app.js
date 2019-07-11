@@ -1,11 +1,10 @@
 /* eslint-disable indent */
 import dotenv from 'dotenv';
-
 import express from 'express';
 import '@babel/polyfill';
 import bodyParser from 'body-parser';
 import routes from './server/routes';
-
+import response from './server/helpers/responses';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -26,7 +25,12 @@ app.get('/', (req, res) => {
     res.json({ message: 'hello world!! Your app is working' });
 });
 
+app.use((req, res) => {
+    return response.handleError(404, 'Invalid http request',res)
+});
+
 
 app.listen(port, () => console.log(`Listening on port ${port}...`));
+
 
 export default app;
