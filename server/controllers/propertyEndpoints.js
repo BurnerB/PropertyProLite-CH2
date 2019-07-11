@@ -11,7 +11,6 @@ import uploader from '../helpers/uploader';
 
 
 dotenv.config();
-
 const created_on = moment().format('MMMM Do YYYY, h:mm:ss a');
 
 class Property {
