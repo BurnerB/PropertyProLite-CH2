@@ -6,8 +6,9 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon --exec babel-node app.js",
     "deploy": "./node_modules/.bin/babel-node app.js",
-    "test": "NODE_ENV=test mocha --require @babel/register ./server/tests/*.js  --timeout 150000 --exit",
-    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls "
+    "test": "NODE_ENV=test nyc mocha --require @babel/register ./server/tests/*.js  --timeout 150000 --exit",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls ",
+    "build": "babel server -d build"
   },
   "engines": {
     "node": "10.15.3",
@@ -33,7 +34,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.5",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.14",
     "moment": "^2.24.0",
     "nodemon": "^1.19.1"
   },
