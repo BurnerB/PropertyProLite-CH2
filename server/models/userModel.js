@@ -32,7 +32,6 @@ class UserModel {
   async findbyEmail() {
     const obj = db.find(o => o.email === this.payload);
     if (!obj) {
-      this.result = obj;
       return false;
     }
     this.result = obj;
