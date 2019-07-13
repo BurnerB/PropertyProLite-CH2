@@ -2,6 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 import moment from 'moment';
 import dotenv from 'dotenv';
+import _ from 'lodash';
 import decode from '../helpers/decoded';
 import PropertyModel from '../models/propertyModel';
 import db from '../db/adverts';
@@ -17,7 +18,6 @@ class Property {
   static async postProperty(req, res) {
     try {
       const {
-        status,
         type,
         state,
         city,
@@ -27,13 +27,14 @@ class Property {
 
       let image_url;
       const _id = db.length + 1;
+      const status = 'Available';
       const owner = req.user._id;
       const ownerEmail = req.user.email;
       const ownerPhoneNumber = req.user.phoneNumber;
       if (!req.files) {
         return response.handleError(400, 'Image should not be empty', res);
       }
-      const image = req.files.photo;
+      const image = req.files.image;
       if (process.env.NODE_ENV !== 'test') {
         image_url = await uploader(image);
         if (!image_url) {
@@ -74,9 +75,9 @@ class Property {
         city,
         price,
         address,
-        image_url,
       } = req.body;
       const _id = req.params.property_id;
+
       const property = new PropertyModel({
         _id,
         type,
@@ -84,7 +85,6 @@ class Property {
         city,
         price,
         address,
-        image_url,
       });
 
       if (!await property.updateProperty() || (user_id !== property.result.owner)) {
@@ -171,7 +171,8 @@ class Property {
 
       if (!await property.findById()) {
         return response.handleError(404, 'No property with that id found', res);
-      } return response.handleSuccess(200, property.result, res);
+      } 
+      return response.handleSuccess(200, property.result, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -194,7 +195,7 @@ class Property {
         description,
         created_on,
       });
-      if (await property.findById()) {
+      if (await property.findByIdfraud()) {
         return response.handleError(400, 'You have already reported this property', res);
       }
       if (!await property.markFraud()) {

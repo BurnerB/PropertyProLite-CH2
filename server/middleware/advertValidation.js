@@ -6,24 +6,23 @@ class Validations {
   static async validateProperty(req, res, next) {
     try {
       const schema = {
-        status: Joi.string().min(5).max(15).regex(/^[a-zA-Z]*$/)
+        type: Joi.string().trim().valid('mini-flat','miniflat','1 bedroom','2 bedroom','3 bedroom', '4 bedroom')
           .required()
-          .error(() => 'Status is a required field with a min of 3 chars and no special chars or numbers'),
-
-        type: Joi.string().min(5).max(15).required()
           .error(() => 'Type is a required field with a min of 3 chars and no special characters'),
 
-        state: Joi.string().min(5).max(15).alphanum()
+        state: Joi.string().trim().min(5).max(15).alphanum()
           .required()
           .error(() => 'State is a required field with a min of 3 chars and no special chars'),
 
-        city: Joi.string().min(5).max(15).alphanum()
+        city: Joi.string().trim().min(5).max(15)
+          .alphanum()
           .required()
           .error(() => 'City is a required field with a min of 3 chars and no special chars or numbers'),
 
         price: Joi.number().required().error(() => 'Price is a required field with no special chars or alphabets'),
 
-        address: Joi.string().min(5).max(15).alphanum()
+        address: Joi.string().trim().min(5).max(15)
+          .alphanum()
           .required()
           .error(() => 'Address is a required field with a min of 3 chars and no special chars or numbers'),
 

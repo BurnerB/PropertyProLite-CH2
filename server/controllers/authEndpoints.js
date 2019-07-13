@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
-/* eslint-disable no-tabs */
-/* eslint-disable indent */
+
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
 import UserModel from '../models/userModel';
@@ -46,7 +45,12 @@ class Authentication {
       }
 
       const token = Token.genToken(_id, email, firstname, lastname, is_Agent, is_Admin, phoneNumber);
-      return response.authsuccess(201, 'success', token, newUser.result, res);
+      console.log(newUser.result);
+      
+      newUser.result["token"]=token;
+      // console.log(newUser.result);
+      return response.authsuccess(201, 'success',
+                                   _.pick(newUser.result,['_id','email', 'firstname','lastname','phoneNumber','address']), res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -66,7 +70,9 @@ class Authentication {
 
 				if (bcrypt.compareSync(password, user.result.password)) {
             const token = Token.genToken(_id, email, firstname, lastname, is_Agent, is_Admin, phoneNumber);
-				    return response.authsuccess(200, 'success', token, user.result, res);
+            user.result["token"]=token;
+            return response.authsuccess(200, 'success', 
+                                        _.pick(user.result,['_id','email', 'firstname','lastname','phoneNumber','address', 'is_Admin','is_Agent']), res);
         }
         return response.handleError(401, 'Incorrect password Email combination', res);
 
@@ -82,7 +88,7 @@ class Authentication {
 
       const user = new UserModel(email);
       if (!await user.findbyEmail()) {
-        return response.handleError(400, 'No account with this email found', res);
+        return response.handleError(404, 'No account with this email found', res);
 
       } return response.success(200, 'Details on password reset have been sent to your email address', res);
 		} catch (e) {
