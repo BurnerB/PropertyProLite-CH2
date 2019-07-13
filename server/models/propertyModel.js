@@ -40,7 +40,7 @@ class PropertyModel {
       type: this.payload.type,
       state: this.payload.state,
       city: this.payload.city,
-      price: this.payload.price,
+      price: parseInt(this.payload.price),
       address: this.payload.address,
       image_url: this.payload.image_url,
       created_on: this.payload.created_on,
@@ -92,7 +92,7 @@ class PropertyModel {
 
   async searchbyType() {
     const { type } = this.payload;
-    const obj = db.filter(o => o.type === type);
+    const obj = db.filter(o => o.type == type);
     if (obj.length === 0) {
       return false;
     }
@@ -119,12 +119,22 @@ class PropertyModel {
   }
 
   async findById() {
-    const obj = fraud.find(o => o.user_id === parseInt(this.payload.user_id));
+    const obj = db.find(o => o._id === parseInt(this.payload._id));
     if (!obj) {
       return false;
     }
+    this.result = obj;
     return true;
  }
+
+ async findByIdfraud() {
+  const obj = fraud.find(o => o._id === parseInt(this.payload._id));
+  if (!obj) {
+    return false;
+  }
+  this.result = obj;
+  return true;
+}
 }
 
 export default PropertyModel;
