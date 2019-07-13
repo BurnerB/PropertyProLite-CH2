@@ -1,14 +1,17 @@
 /* eslint-disable indent */
 import dotenv from 'dotenv';
 import express from 'express';
+import swaggerUi from 'swagger-ui-express';
 import '@babel/polyfill';
 import bodyParser from 'body-parser';
+import swaggerDocument from './swagger.json';
 import routes from './server/routes';
 import errorhandler from './server/helpers/errorhandler'
 import response from './server/helpers/responses';
 
 const app = express();
 const port = process.env.PORT || 5000;
+
 
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 console.log(`app: ${app.get('env')}`);
@@ -18,6 +21,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true,
 }));
+
+let options = {
+    explorer: true
+  };
+   
+app.use('/api/v1/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 routes(app);
 dotenv.config();
