@@ -182,6 +182,7 @@ describe('/Authen', () => {
         .end((err, res) => {
           res.should.have.status(409);
           expect(res.body.error).equals('The email has already been used to register');
+          expect(res.body).to.have.property('status');
           if (err) return done();
           done();
         });
