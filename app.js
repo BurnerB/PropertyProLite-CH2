@@ -4,6 +4,7 @@ import express from 'express';
 import '@babel/polyfill';
 import bodyParser from 'body-parser';
 import routes from './server/routes';
+import errorhandler from './server/helpers/errorhandler'
 import response from './server/helpers/responses';
 
 const app = express();
@@ -26,8 +27,17 @@ app.get('/', (req, res) => {
 });
 
 app.use((req, res) => {
-    return response.handleError(404, 'Invalid http request',res)
+    return response.handleError(405 ,'Method not allowed',res)
 });
+
+app.use((req,res) =>{
+    if(!req.is('*/json')){
+        return response.handleError(404, 'Not valid Json request',res)
+    } 
+});
+app.use(errorhandler.error404);
+app.use(errorhandler.error500);
+
 
 
 app.listen(port, () => console.log(`Listening on port ${port}...`));
