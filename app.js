@@ -22,11 +22,11 @@ app.use(bodyParser.urlencoded({
 	extended: true,
 }));
 
-let options = {
-    explorer: true
-  };
+// let options = {
+//     explorer: true
+//   };
    
-app.use('/api/v1/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
+// app.use('/api/v1/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
 
 routes(app);
 dotenv.config();
