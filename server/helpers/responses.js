@@ -1,9 +1,8 @@
 class Responses {
-  static authsuccess(statusCode, message, token, data, res) {
+  static authsuccess(statusCode, message,data, res) {
     res.status(statusCode).json({
       status: statusCode,
       data,
-      token,
     });
   }
 
