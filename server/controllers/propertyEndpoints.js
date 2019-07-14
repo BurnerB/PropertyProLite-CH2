@@ -89,7 +89,8 @@ class Property {
 
       if (!await property.updateProperty() || (user_id !== property.result.owner)) {
         return response.handleError(404, 'You have no advert with that Id', res);
-      } return response.handleSuccess(200, property.result, res);
+      }console.log(property.res) 
+      return response.handleSuccess(200, property.result, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }

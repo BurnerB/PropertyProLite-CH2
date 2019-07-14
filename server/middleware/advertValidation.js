@@ -41,21 +41,21 @@ class Validations {
   static async validateUpdateProperty(req, res, next) {
     try {
       const schema = {
-        type: Joi.string().min(5).max(15).required()
+        type: Joi.string().min(5).max(15).optional()
           .error(() => 'Type is a required field with a min of 3 chars and no special characters'),
 
         state: Joi.string().min(5).max(15).alphanum()
-          .required()
+          .optional()
           .error(() => 'State is a required field with a min of 3 chars and no special chars'),
 
         city: Joi.string().min(5).max(15).alphanum()
-          .required()
+          .optional()
           .error(() => 'City is a required field with a min of 3 chars and no special chars or numbers'),
 
-        price: Joi.number().required().error(() => 'Price is a required field with no special chars or alphabets'),
+        price: Joi.number().optional().error(() => 'Price is a required field with no special chars or alphabets'),
 
         address: Joi.string().min(5).max(15).alphanum()
-          .required()
+          .optional()
           .error(() => 'Address is a required field with a min of 3 chars and no special chars or numbers'),
       };
       const { error } = Joi.validate(req.body, schema);

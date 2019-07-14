@@ -40,7 +40,7 @@ class PropertyModel {
       type: this.payload.type,
       state: this.payload.state,
       city: this.payload.city,
-      price: parseInt(this.payload.price),
+      price: obj.price,
       address: this.payload.address,
       image_url: this.payload.image_url,
       created_on: this.payload.created_on,

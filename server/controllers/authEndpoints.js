@@ -50,7 +50,7 @@ class Authentication {
       newUser.result["token"]=token;
       // console.log(newUser.result);
       return response.authsuccess(201, 'success',
-                                   _.pick(newUser.result,['_id','email', 'firstname','lastname','phoneNumber','address']), res);
+                                   _.pick(newUser.result,['_id','email', 'firstname','lastname','phoneNumber','address','token']), res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -72,7 +72,7 @@ class Authentication {
             const token = Token.genToken(_id, email, firstname, lastname, is_Agent, is_Admin, phoneNumber);
             user.result["token"]=token;
             return response.authsuccess(200, 'success', 
-                                        _.pick(user.result,['_id','email', 'firstname','lastname','phoneNumber','address', 'is_Admin','is_Agent']), res);
+                                        _.pick(user.result,['_id','email', 'firstname','lastname','phoneNumber','address', 'is_Admin','is_Agent','token']), res);
         }
         return response.handleError(401, 'Incorrect password Email combination', res);
 
