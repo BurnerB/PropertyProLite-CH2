@@ -1,10 +1,8 @@
 /* eslint-disable indent */
 import dotenv from 'dotenv';
 import express from 'express';
-import swaggerUi from 'swagger-ui-express';
 import '@babel/polyfill';
 import bodyParser from 'body-parser';
-import swaggerDocument from './swagger.json';
 import routes from './server/routes';
 import errorhandler from './server/helpers/errorhandler'
 import response from './server/helpers/responses';
