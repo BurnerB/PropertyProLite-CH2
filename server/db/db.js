@@ -1,14 +1,14 @@
 const { Pool } = require('pg');
-// const dotenv = require('dotenv');
+const dotenv = require('dotenv');
 
-// dotenv.config();
+dotenv.config();
 const pool = new Pool(
   {
-    user:'abu',
+    user:process.env.USER,
     password:'password',
-    Host:'localhost',
-    port:5432,
-    database:'propertypro'
+    Host:process.env.HOST,
+    port:process.env.PORT,
+    database:process.env.DATABASE
   }
 );
 
@@ -16,7 +16,7 @@ pool.on('connect', () => {
   console.log('connected to the db');
 });
 
-const createTables = () => {
+const createTables = async () => {
   const queryText =
     `CREATE TABLE IF NOT EXISTS
       users(
@@ -30,14 +30,8 @@ const createTables = () => {
         created_On TIMESTAMP NOT NULL DEFAULT NOW()
       )`;
 
-  pool.query(queryText)
-    .then((res) => {
-      console.log(res);
-      pool.end();
-    })
-    .catch((err) => {
-      console.log(err);
-      pool.end();
-    });
+  await pool.query(queryText)
+  await pool.end();
+
 }
 createTables()
