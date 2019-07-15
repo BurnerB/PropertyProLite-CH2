@@ -1,16 +1,57 @@
-const users = [
-  {
-    _id: 1,
-    email: 'agent007@gmail.com',
-    firstname: 'James',
-    lastname: 'Bond',
-    password: '$2b$10$MQiD7iV.aPTIeOwq5PVDI.E62HP35STcEl10c/Z/6y/rt5u705gha',
-    phoneNumber: '0700000000',
-    address: 'Rwanda',
-    is_Agent: true,
-    is_Admin: true,
-  },
-];
+import { Pool } from 'pg';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
-export default users;
+const pool = new Pool({
+    connectionString:process.env.DATABASE_URL
+});
+
+pool.on('connect',() =>{
+    console.log('connected to the db');
+});
+
+const createTable = () =>{
+    const queryText = 
+        `CREATE TABLE IF NOT EXISTS
+            user(
+                id UUID PRIMARY KEY,
+                email VARCHAR(50) NOT NULL,
+                firstname VARCHAR(50) NOT NULL,
+                lastname VARCHAR(50) NOT NULL,
+                createdON TIMESTAMP
+            )`;
+    
+    pool.query(queryText)
+        .then((res) =>{
+            console.log(res);
+            pool.end();
+        })
+        .catch((error)=>{
+            console.log(error);
+            pool.end();
+        })
+}
+
+const dropTable = () => {
+    const queryText = 'DROP TABLE IF EXISTS user';
+    pool.query(queryText)
+        .then((res) =>{
+            console.log(res);
+            pool.end();
+        })
+        .catch((error)=>{
+            console.log(error);
+            pool.end();
+        });
+}
+
+pool.on('remove', ()=>{
+    console.log('client removed');
+    process.exit(0);
+});
+
+export default { createTable, dropTable };
+
+// require('make-runnable');
+
