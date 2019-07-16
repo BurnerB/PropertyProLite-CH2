@@ -43,7 +43,7 @@ describe('/PROPERTY', () => {
   describe('/POST property', () => {
     it('should successfully post a property advert', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .attach('image_url',testImage)
         .field({
@@ -62,7 +62,7 @@ describe('/PROPERTY', () => {
 
     it('should not post a property advert with forbidden token', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${userToken}`)
         .send({
           status: 'Available',
@@ -82,7 +82,7 @@ describe('/PROPERTY', () => {
 
     it('should not post a property advert with no token', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', ' ')
         .send({
           price: 5000000,
@@ -102,7 +102,7 @@ describe('/PROPERTY', () => {
 
     it('should not  post a property advert with missing price', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: '',
@@ -122,7 +122,7 @@ describe('/PROPERTY', () => {
 
     it('should not  post a property advert with missing state', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 5000000,
@@ -142,7 +142,7 @@ describe('/PROPERTY', () => {
 
     it('should not  post a property advert with missing city', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 5000000,
@@ -162,7 +162,7 @@ describe('/PROPERTY', () => {
 
     it('should not  post a property advert with missing address', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 5000000,
@@ -182,7 +182,7 @@ describe('/PROPERTY', () => {
 
     it('should not  post a property advert with missing image_url', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 5000000,
@@ -202,7 +202,7 @@ describe('/PROPERTY', () => {
 
     it('should not  post a property advert with invalid price', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           status: 'Available',
@@ -223,7 +223,7 @@ describe('/PROPERTY', () => {
 
     it('should not  post a property advert with invalid state', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           status: 'Available',
@@ -244,7 +244,7 @@ describe('/PROPERTY', () => {
 
     it('should not  post a property advert with invalid city', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           status: 'Available',
@@ -265,7 +265,7 @@ describe('/PROPERTY', () => {
 
     it('should not  post a property advert with invalid address', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           status: 'Available',
@@ -286,7 +286,7 @@ describe('/PROPERTY', () => {
 
     it('should not  post a property advert with invalid type', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           status: 'Available',
@@ -307,7 +307,7 @@ describe('/PROPERTY', () => {
 
     it('should not  post a property advert with image_url status', (done) => {
       chai.request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 5000000,
@@ -329,7 +329,7 @@ describe('/PROPERTY', () => {
   describe('/PATCH property', () => {
     it('should successfully update property advert', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -347,7 +347,7 @@ describe('/PROPERTY', () => {
 
     it('should not update a property advert with no token', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', ' ')
         .send({
           price: 6000000,
@@ -367,7 +367,7 @@ describe('/PROPERTY', () => {
 
     it('should not update a property advert with forbidden token', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${userToken}`)
         .send({
           price: 6000000,
@@ -387,7 +387,7 @@ describe('/PROPERTY', () => {
 
     it('should not update a property advert if no id exists', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/111')
+        .patch('/api/v2/property/111')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -406,7 +406,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with invalid price', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 'yazaa',
@@ -426,7 +426,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with invalid state', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -446,7 +446,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with invalid city', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -466,7 +466,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with invalid address', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -486,7 +486,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with invalid type', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -506,7 +506,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with invalid image_url', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -526,7 +526,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with missing price', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: '',
@@ -546,7 +546,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with missing state', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -566,7 +566,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with missing city', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -586,7 +586,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with missing address', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -606,7 +606,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with missing type', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -626,7 +626,7 @@ describe('/PROPERTY', () => {
 
     it('should not update advert with missing image_url', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1')
+        .patch('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .send({
           price: 6000000,
@@ -648,7 +648,7 @@ describe('/PROPERTY', () => {
   describe('/PATCH sold-property', () => {
     it('should successfully mark property as sold', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1/sold')
+        .patch('/api/v2/property/1/sold')
         .set('authorization', `Bearer ${agentToken}`)
         .end((err, res) => {
           res.should.have.status(200);
@@ -659,7 +659,7 @@ describe('/PROPERTY', () => {
 
     it('should not mark a property advert with no token', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1/sold')
+        .patch('/api/v2/property/1/sold')
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
@@ -671,7 +671,7 @@ describe('/PROPERTY', () => {
 
     it('should not mark a property advert with forbidden token', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1/sold')
+        .patch('/api/v2/property/1/sold')
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
@@ -683,7 +683,7 @@ describe('/PROPERTY', () => {
 
     it('should not mark a property advert if no id exists', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/111/sold')
+        .patch('/api/v2/property/111/sold')
         .set('authorization', `Bearer ${agentToken}`)
         .end((err, res) => {
           res.should.have.status(404);
@@ -697,7 +697,7 @@ describe('/PROPERTY', () => {
   describe('/PATCH property fraudulent', () => {
     it('should mark property as fraudulent', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
+        .patch('/api/v2/property/1/fraudulent')
         .set('authorization', `Bearer ${userToken}`)
         .send({
           reason: 'fake picture',
@@ -713,7 +713,7 @@ describe('/PROPERTY', () => {
 
     it('should not mark property as fraudulent with no token', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
+        .patch('/api/v2/property/1/fraudulent')
         .set('authorization', ' ')
         .send({
           reason: 'fake picture',
@@ -729,7 +729,7 @@ describe('/PROPERTY', () => {
 
     it('should not mark property as fraudulent with invalid reason', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
+        .patch('/api/v2/property/1/fraudulent')
         .set('authorization', `Bearer ${userToken}`)
         .send({
           reason: new Array(52).join('a'),
@@ -745,7 +745,7 @@ describe('/PROPERTY', () => {
 
     it('should not mark property as fraudulent with invalid description', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
+        .patch('/api/v2/property/1/fraudulent')
         .set('authorization', `Bearer ${userToken}`)
         .send({
           reason: 'fake picture',
@@ -761,7 +761,7 @@ describe('/PROPERTY', () => {
 
     it('should not mark property as fraudulent wih no reason', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
+        .patch('/api/v2/property/1/fraudulent')
         .set('authorization', `Bearer ${userToken}`)
         .send({
           reason: ' ',
@@ -777,7 +777,7 @@ describe('/PROPERTY', () => {
 
     it('should not mark property as fraudulent with no description', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/1/fraudulent')
+        .patch('/api/v2/property/1/fraudulent')
         .set('authorization', `Bearer ${userToken}`)
         .send({
           reason: 'fake picture',
@@ -793,7 +793,7 @@ describe('/PROPERTY', () => {
 
     it('should not mark property as fraudulent with invalid property id', (done) => {
       chai.request(app)
-        .patch('/api/v1/property/2/fraudulent')
+        .patch('/api/v2/property/2/fraudulent')
         .set('authorization', `Bearer ${userToken}`)
         .send({
           reason: 'fake picture',
@@ -811,7 +811,7 @@ describe('/PROPERTY', () => {
   describe('/GET specific property', () => {
     it('should return an error no advert of that id exists', (done) => {
       chai.request(app)
-        .get('/api/v1/property/2')
+        .get('/api/v2/property/2')
         .end((err, res) => {
           res.should.have.status(404);
           expect(res.body.error).equals('No property with that id found');
@@ -824,7 +824,7 @@ describe('/PROPERTY', () => {
   describe('/GET specific type', () => {
     it('should return an error no advert of that type exists', (done) => {
       chai.request(app)
-        .get('/api/v1/property?type=2 bedrom')
+        .get('/api/v2/property?type=2 bedrom')
         .end((err, res) => {
           expect(res.body.error).equals('No property adverts of that type found');
           res.should.have.status(404);
@@ -835,7 +835,7 @@ describe('/PROPERTY', () => {
 
     it('should successfully return an adverts of that type exists', (done) => {
       chai.request(app)
-        .get('/api/v1/property?type=2 bedroom')
+        .get('/api/v2/property?type=2 bedroom')
         .end((err, res) => {
           res.should.have.status(200);
           if (err) return done();
@@ -847,7 +847,7 @@ describe('/PROPERTY', () => {
   describe('/DELETE property', () => {
     it('should successfully delete a  property advert', (done) => {
       chai.request(app)
-        .delete('/api/v1/property/1')
+        .delete('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .end((err, res) => {
           res.should.have.status(200);
@@ -858,7 +858,7 @@ describe('/PROPERTY', () => {
 
     it('should not delete property advert with no token', (done) => {
       chai.request(app)
-        .delete('/api/v1/property/1')
+        .delete('/api/v2/property/1')
         .set('authorization', ' ')
         .end((err, res) => {
           res.should.have.status(401);
@@ -870,7 +870,7 @@ describe('/PROPERTY', () => {
 
     it('should not delete a property advert with forbidden token', (done) => {
       chai.request(app)
-        .delete('/api/v1/property/1')
+        .delete('/api/v2/property/1')
         .set('authorization', `Bearer ${userToken}`)
         .end((err, res) => {
           res.should.have.status(403);
@@ -882,7 +882,7 @@ describe('/PROPERTY', () => {
 
     it('should not delete a property advert if no id exists', (done) => {
       chai.request(app)
-        .delete('/api/v1/property/1')
+        .delete('/api/v2/property/1')
         .set('authorization', `Bearer ${agentToken}`)
         .end((err, res) => {
           expect(res.body.error).equals('You have no advert with that Id');
@@ -896,7 +896,7 @@ describe('/PROPERTY', () => {
   describe('/GET all properties', () => {
     it('should return an error message if no adverts exist', (done) => {
       chai.request(app)
-        .get('/api/v1/properties')
+        .get('/api/v2/properties')
         .end((err, res) => {
           expect(res.body.error).equals('No adverts found');
           res.should.have.status(404);
