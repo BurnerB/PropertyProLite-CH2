@@ -29,6 +29,7 @@ const createTables = async () => {
         is_Agent BOOL DEFAULT false,
         is_Admin BOOL DEFAULT false,
         created_On TIMESTAMP DEFAULT NOW()
+
       )`;
 
   await pool.query(queryText)
