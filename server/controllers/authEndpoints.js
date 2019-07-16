@@ -7,8 +7,6 @@ import UserModel from '../models/userModel';
 import Token from '../helpers/token';
 import response from '../helpers/responses';
 
-const is_Admin = false;
-
 
 class Authentication {
   static async registerUser(req, res) {
@@ -21,26 +19,36 @@ class Authentication {
         address,
         is_Agent,
       } = req.body;
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
 
-      const newUser = new UserModel({
-        firstname,
-        lastname,
-        email,
-        hashedPassword,
-        address,
-        is_Agent
-      });
+      const user = await UserModel.findbyEmail(email);
 
-      if (!await newUser.registerUser()) {
-        return response.handleError(409, 'The email has already been used to register', res);
+      if(!user){
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const newUser = new UserModel({
+          firstname,
+          lastname,
+          email,
+          hashedPassword,
+          address,
+          is_Agent,
+        });
+        await newUser.registerUser();
+
+        const userInfo = {
+          firstname:newUser.firstname,
+          lastname:newUser.lastname,
+          email:newUser.email,
+          is_Agent:newUser.is_Agent,
+        };
+
+        const token = Token.genToken(email, firstname, lastname, is_Agent);
+
+        userInfo.token = token;
+        return response.authsuccess(201, 'success',userInfo, res);
       }
-
-      // const token = Token.genToken(newUser.id, email, firstname, lastname, is_Agent, is_Admin);
-      
-      // newUser.result["token"]=token;
-      return response.authsuccess(201, 'success',newUser, res);
+      return response.handleError(409, 'The email has already been used to register', res);
+    
     } catch (e) {
       console.log(e.message);
       return response.catchError(500, e.message, res);
