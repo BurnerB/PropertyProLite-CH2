@@ -1,42 +1,30 @@
 /* eslint-disable no-underscore-dangle */
-import db from '../db/users';
+import db from '../db/queries';
 
 class UserModel {
-  constructor(payload = null) {
-    this.payload = payload;
-    this.result = null;
+  constructor(firstname, lastname, email, password, address, is_Agent, is_Admin) {
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.email = email;
+    this.password = password;
+    this.address = address;
+    this.is_Agent = is_Agent;
+    this.is_Admin = is_Admin;
+
   }
 
   async registerUser() {
-    const user = {
-      _id: this.payload._id,
-      email: this.payload.email,
-      firstname: this.payload.firstname,
-      lastname: this.payload.lastname,
-      password: this.payload.password,
-      phoneNumber: this.payload.phoneNumber,
-      address: this.payload.address,
-      is_Agent: this.payload.is_Agent,
-      is_Admin: this.payload.is_Admin,
-    };
-
-    const obj = db.find(o => o.email === this.payload.email);
-    if (!obj) {
-      db.push(user);
-      this.result = user;
-      return true;
-    }
-    return false;
+    const createUserQuery = `INSERT INTO users(firstname,lastname,email,password, address,is_Agent, is_Admin) VALUES($1, $2, $3, $4, $5 ,$6, $7) returning *`;
+    const value = [this.firstname,this.lastname,this.email,this.password,this.address,this.is_Agent, this.is_Admin];
+    const createdUser = await db.query(createUserQuery,value);
+    const user = createdUser.rows[0];
+    return user;
   }
 
-  async findbyEmail() {
-    const obj = db.find(o => o.email === this.payload);
-    if (!obj) {
-      return false;
-    }
-    this.result = obj;
-    return true;
-  }
+  // async findbyEmail(email) {
+  //   const searchUserQuery = `SELECT * FROM users WHERE email= $1`;
+  //   const foundUser = await db.query(searchUserQuery,[email])
+  //   return foundUser.row[0];
+  // }
 }
-
 export default UserModel;

@@ -20,14 +20,16 @@ const createTables = async () => {
   const queryText =
     `CREATE TABLE IF NOT EXISTS
       users(
-        _id serial PRIMARY KEY,
-        firstname VARCHAR(128) NOT NULL,
-        lastname VARCHAR(128) NOT NULL,
-        email VARCHAR(128) NOT NULL,
-        password VARCHAR(128) NOT NULL,
-        is_Agent BOOL DEFAULT 'false',
-        is_Admin BOOL DEFAULT 'false',
-        created_On TIMESTAMP NOT NULL DEFAULT NOW()
+        id serial PRIMARY KEY,
+        firstname VARCHAR(500),
+        lastname VARCHAR(500),
+        email VARCHAR(500) ,
+        password VARCHAR(500),
+        address VARCHAR(500) ,
+        is_Agent BOOL DEFAULT false,
+        is_Admin BOOL DEFAULT false,
+        created_On TIMESTAMP DEFAULT NOW()
+
       )`;
 
   await pool.query(queryText)
