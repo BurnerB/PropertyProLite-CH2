@@ -4,7 +4,6 @@
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
 import UserModel from '../models/userModel';
-import db from '../db/users';
 import Token from '../helpers/token';
 import response from '../helpers/responses';
 
@@ -15,44 +14,36 @@ class Authentication {
   static async registerUser(req, res) {
     try {
       const {
-        email,
         firstname,
         lastname,
-        address,
+        email,
         password,
-        phoneNumber,
+        address,
         is_Agent,
       } = req.body;
-      const _id = db.length + 1;
-
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
 
       const newUser = new UserModel({
-        _id,
-        email,
         firstname,
         lastname,
-        password: hashedPassword,
+        email,
+        hashedPassword,
         address,
-        phoneNumber,
-        is_Agent,
-        is_Admin,
+        is_Agent
       });
 
       if (!await newUser.registerUser()) {
         return response.handleError(409, 'The email has already been used to register', res);
       }
 
-      const token = Token.genToken(_id, email, firstname, lastname, is_Agent, is_Admin, phoneNumber);
-      console.log(newUser.result);
+      // const token = Token.genToken(newUser.id, email, firstname, lastname, is_Agent, is_Admin);
       
-      newUser.result["token"]=token;
-      // console.log(newUser.result);
-      return response.authsuccess(201, 'success',
-                                   _.pick(newUser.result,['_id','email', 'firstname','lastname','phoneNumber','address','token']), res);
+      // newUser.result["token"]=token;
+      return response.authsuccess(201, 'success',newUser, res);
     } catch (e) {
-      return response.catchError(500, e.toString(), res);
+      console.log(e.message);
+      return response.catchError(500, e.message, res);
     }
   }
 
