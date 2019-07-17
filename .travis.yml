@@ -7,6 +7,14 @@ install:       npm install
 cache:
   directories:
     - node_modules
+addons:
+ postgresql: "9.6"
+
+services:
+ - postgresql
+
+before_install:
+ - psql -c 'create database propertyproTest' -U postgres
 script:
   - npm test
 after_success:

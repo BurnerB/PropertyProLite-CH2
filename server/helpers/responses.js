@@ -2,6 +2,7 @@ class Responses {
   static authsuccess(statusCode, message,data, res) {
     res.status(statusCode).json({
       status: statusCode,
+      message:message,
       data,
     });
   }

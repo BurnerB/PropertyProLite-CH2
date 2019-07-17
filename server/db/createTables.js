@@ -1,4 +1,4 @@
-const { pool } = require('../../config/config');
+const pool = require('../../config/config');
 
 pool.on('connect', () => {
   console.log('connected to the db');
