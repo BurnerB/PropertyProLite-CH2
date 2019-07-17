@@ -1,11 +1,10 @@
 const { Pool } = require('pg');
 
 
-
 let pool;
 
-if(process.env.NODE_ENV = "development"){
-  let pool = new Pool({
+if(process.env.NODE_ENV = "production"){
+  pool = new Pool({
     user: process.env.USER,
     host: process.env.HOST,
     database: process.env.DATABASE,
@@ -14,7 +13,7 @@ if(process.env.NODE_ENV = "development"){
   });
 }
 if(process.env.NODE_ENV = "test"){
-    let pool = new Pool({
+  pool = new Pool({
     user: process.env.USER,
     host: process.env.HOST,
     database: process.env.TEST_DATABASE,
