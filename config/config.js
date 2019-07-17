@@ -1,12 +1,28 @@
 const { Pool } = require('pg');
 
-const pool = new Pool({
-  user: process.env.USER,
-  host: process.env.HOST,
-  database: process.env.DATABASE,
-  password: 'password',
-  port: process.env.PORT,
-});
+
+
+let pool;
+
+if(process.env.NODE_ENV = "development"){
+  let pool = new Pool({
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    password: 'password',
+    port: process.env.PORT,
+  });
+}
+if(process.env.NODE_ENV = "test"){
+    let pool = new Pool({
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: process.env.TEST_DATABASE,
+    password: 'password',
+    port: process.env.PORT,
+  });
+}
+
 
 pool.on('connect', () => console.log('connected to the db'));
 
