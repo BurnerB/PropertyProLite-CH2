@@ -1,6 +1,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../app';
+import createTables from'./db/createTables';
+import dropTables from './db/dropTables';
 
 const { expect } = chai;
 chai.should();
@@ -8,9 +10,17 @@ chai.use(chaiHttp);
 
 describe('/Authen', () => {
   describe('/POST signup', () => {
+    beforeEach(() => {
+      createTables()
+    });
+
+    afterEach(()=>{
+      dropTables()
+    })
+  
     it('should successfully sign up user', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send({
           email: 'johndoe@gmail.com',
           firstname: 'John',
@@ -29,7 +39,7 @@ describe('/Authen', () => {
 
     it('should not sign up user with missing email', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send({
           email: ' ',
           firstname: 'John',
@@ -49,7 +59,7 @@ describe('/Authen', () => {
 
     it('should not sign up user with missing firstname', (done) => {
       chai.request(app)
-        .post('/api/v1/auth/signup')
+        .post('/api/v2/auth/signup')
         .send({
           email: 'johndoe@gmail.com',
           firstname: '',

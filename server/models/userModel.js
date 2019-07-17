@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import db from '../db/queries';
+import pool from '../../config/config';
 
 class UserModel {
   constructor(firstname, lastname, email, password, address, is_Agent, is_Admin) {
@@ -15,16 +15,16 @@ class UserModel {
 
   async registerUser() {
     const createUserQuery = `INSERT INTO users(firstname,lastname,email,password, address,is_Agent, is_Admin) VALUES($1, $2, $3, $4, $5 ,$6, $7) returning *`;
-    const value = [this.firstname,this.lastname,this.email,this.password,this.address,this.is_Agent, this.is_Admin];
-    const createdUser = await db.query(createUserQuery,value);
-    const user = createdUser.rows[0];
-    return user;
+    const createdUser = await pool.query(createUserQuery, [this.firstname,this.lastname,this.email,this.password,this.address,this.is_Agent, this.is_Admin]);
+    const { rows }= createdUser
+    return rows;
   }
 
-  // async findbyEmail(email) {
-  //   const searchUserQuery = `SELECT * FROM users WHERE email= $1`;
-  //   const foundUser = await db.query(searchUserQuery,[email])
-  //   return foundUser.row[0];
-  // }
+  static async findbyEmail(email) {
+    const searchUserQuery = `SELECT * FROM users WHERE email= $1`;
+    const foundUser = await pool.query(searchUserQuery,[email])
+    const user = foundUser.rows[0];
+    return user;
+  }
 }
 export default UserModel;
