@@ -25,32 +25,34 @@ class Authentication {
       if(!user){
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-        const newUser = new UserModel({
+        const newUser = new UserModel(
           firstname,
           lastname,
           email,
           hashedPassword,
           address,
           is_Agent,
-        });
-        await newUser.registerUser();
+        );
+        const user = await newUser.registerUser();
 
-        const userInfo = {
-          firstname:newUser.firstname,
-          lastname:newUser.lastname,
-          email:newUser.email,
-          is_Agent:newUser.is_Agent,
-        };
+        const token = Token.genToken(user.id, user.email, user.firstname, user.lastname, user.is_Agent);
 
-        const token = Token.genToken(email, firstname, lastname, is_Agent);
+        return res.status(201).json({
+          status: 'success',
+          data: {
+            token: token,
+            firstName: user[0].firstname,
+            lastName: user[0].lastname,
+            email: user[0].email,
+            id: user[0].id,
+            address:user[0].address
 
-        userInfo.token = token;
-        return response.authsuccess(201, 'success',userInfo, res);
+            },
+          });
       }
       return response.handleError(409, 'The email has already been used to register', res);
     
     } catch (e) {
-      console.log(e.message);
       return response.catchError(500, e.message, res);
     }
   }
