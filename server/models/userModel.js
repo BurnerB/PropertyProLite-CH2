@@ -16,8 +16,8 @@ class UserModel {
   async registerUser() {
     const createUserQuery = `INSERT INTO users(firstname,lastname,email,password, address,is_Agent, is_Admin) VALUES($1, $2, $3, $4, $5 ,$6, $7) returning *`;
     const createdUser = await pool.query(createUserQuery, [this.firstname,this.lastname,this.email,this.password,this.address,this.is_Agent, this.is_Admin]);
-    const { rows }= createdUser
-    return rows;
+    const user = createdUser.rows[0];
+    return user;
   }
 
   static async findbyEmail(email) {
