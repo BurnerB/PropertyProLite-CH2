@@ -67,14 +67,11 @@ class Property {
       const user_id = decoded.id;
       const price = req.body.price;
       const id = req.params.property_id;
-      console.log(price);
 
       const property = await PropertyModel.updateProperty(id,price);
-      console.log(property);
-      if (!property) {
+      if (!property || user_id !== property.owner) {
         return response.handleError(404, 'You have no advert with that Id', res);
       }
-      console.log(property)
       return response.handleSuccess(200, property, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
