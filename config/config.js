@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 
 let pool;
 
-if(process.env.NODE_ENV = "development"){
+process.env.NODE_ENV = "development"
   pool = new Pool({
     user: process.env.USER,
     host: process.env.HOST,
@@ -11,16 +11,16 @@ if(process.env.NODE_ENV = "development"){
     password: 'password',
     port: process.env.PORT,
   });
-}
-if(process.env.NODE_ENV = "test"){
-  pool = new Pool({
-    user: process.env.USER,
-    host: process.env.HOST,
-    database: process.env.DATABASE,
-    password: 'password',
-    port: process.env.PORT,
-  });
-}
+// }
+// if(process.env.NODE_ENV = "test"){
+//   pool = new Pool({
+//     user: process.env.USER,
+//     host: process.env.HOST,
+//     database: process.env.DATABASE,
+//     password: 'password',
+//     port: process.env.PORT,
+//   });
+// }
 
 
 pool.on('connect', () => console.log('connected to the db'));
