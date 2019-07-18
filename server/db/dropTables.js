@@ -6,7 +6,6 @@ const dropTables = async () => {
     await pool.query(queryText);
     await pool.end();
   }catch{
-    console.log(err);
     pool.end();
   }
 }
