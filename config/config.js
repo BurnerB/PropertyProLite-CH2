@@ -1,13 +1,16 @@
 const { Pool } = require('pg');
+//connection to postgres
 
 
-let pool;
+const env = process.env.NODE_ENV;
 
-process.env.NODE_ENV = "development"
-  pool = new Pool({
+const database = env ==='test'? process.env.TEST_DATABASE : process.env.DEV_DATABASE;
+
+
+const pool = new Pool({
     user: process.env.USER,
     host: process.env.HOST,
-    database: process.env.DATABASE,
+    database: database,
     password: 'password',
     port: process.env.PORT,
   });
