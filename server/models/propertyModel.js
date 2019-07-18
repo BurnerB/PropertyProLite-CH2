@@ -43,4 +43,4 @@ class PropertyModel {
     return rows[0];
   }
 }
-export default PropertyMode;
+export default PropertyModel;
