@@ -39,7 +39,6 @@ class PropertyModel {
     const query =`UPDATE properties SET price= $1 WHERE id = $2 RETURNING *`;
     const Updates = [price,id];
     const {rows} = await pool.query(query,Updates);
-    console.log(rows);
     return rows[0];
   }
 }
