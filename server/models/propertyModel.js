@@ -27,5 +27,20 @@ class PropertyModel {
     const user = foundUser.rows[0];
     return user;
   }
+
+  static async allproperties(){
+    const query = `SELECT * FROM properties`;
+    const adverts = await pool.query(query);
+    const allAdverts = adverts.rows[0];
+    return allAdverts;
+  }
+
+  static async updateProperty(id, price){
+    const query =`UPDATE properties SET price= $1 WHERE id = $2 RETURNING *`;
+    const Updates = [price,id];
+    const {rows} = await pool.query(query,Updates);
+    console.log(rows);
+    return rows[0];
+  }
 }
 export default PropertyModel;
