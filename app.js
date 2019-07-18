@@ -10,7 +10,8 @@ import response from './server/helpers/responses';
 const app = express();
 const port = process.env.NODE_PORT || 5000;
 
-
+// process.env.test=null
+// process.env="development"
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 console.log(`app: ${app.get('env')}`);
 
