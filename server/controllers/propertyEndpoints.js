@@ -64,29 +64,18 @@ class Property {
   static async updateProperty(req, res) {
     try {
       const decoded = decode.decodeToken(req.headers.authorization);
-      const user_id = decoded._id;
-      const {
-        type,
-        state,
-        city,
-        price,
-        address,
-      } = req.body;
-      const _id = req.params.property_id;
+      const user_id = decoded.id;
+      const price = req.body.price;
+      const id = req.params.property_id;
+      console.log(price);
 
-      const property = new PropertyModel({
-        _id,
-        type,
-        state,
-        city,
-        price,
-        address,
-      });
-
-      if (!await property.updateProperty() || (user_id !== property.result.owner)) {
+      const property = await PropertyModel.updateProperty(id,price);
+      console.log(property);
+      if (!property) {
         return response.handleError(404, 'You have no advert with that Id', res);
       }
-      return response.handleSuccess(200, property.result, res);
+      console.log(property)
+      return response.handleSuccess(200, property, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -134,11 +123,11 @@ class Property {
 
   static async allAdverts(req, res) {
     try {
-      const allData = new PropertyModel();
-      if (!await allData.allproperties()) {
+      const property = await PropertyModel.allproperties();
+      if (!property) {
         return response.handleError(404, 'No adverts found', res);
       }
-      return response.handleSuccess(200, allData.result, res);
+      return response.handleSuccess(200, property, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }

@@ -36,7 +36,7 @@ class Authentication {
         );
         const user = await newUser.registerUser();
 
-        const token = Token.genToken(user.id, user.email, user.firstname, user.lastname, user.is_Agent);
+        const token = Token.genToken(user.id, user.email, user.firstname, user.lastname, user.is_agent, user.is_admin);
         user["token"]=token;
 
         const{ password ,...noA} = user;
@@ -60,7 +60,7 @@ class Authentication {
             user["token"]=token;
 
             const{ password ,...noA} = user;
-            return response.authsuccess(200, 'successfully created user', noA,res);
+            return response.authsuccess(200, 'successfully logged in user', noA,res);
         }
         return response.handleError(401, 'Incorrect password Email combination', res);
 
