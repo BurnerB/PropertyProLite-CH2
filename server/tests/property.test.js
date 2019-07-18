@@ -1,331 +1,332 @@
-// import chai from 'chai';
-// import chaiHttp from 'chai-http';
-// import jwt from 'jsonwebtoken';
-// import app from '../../app';
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import jwt from 'jsonwebtoken';
+import app from '../../app';
 
-// const { expect } = chai;
-// chai.should();
-// chai.use(chaiHttp);
+const { expect } = chai;
+chai.should();
+chai.use(chaiHttp);
 
-// let userToken;
-// let agentToken;
-// const testImage = './server/tests/test.jpg';
+let userToken;
+let agentToken;
+const testImage = './server/tests/test.jpg';
 
-// describe('/PROPERTY', () => {
-//   before('generate JWT', (done) => {
-//     agentToken = jwt.sign({
-//       email: 'johndoe@gmail.com',
-//       id: 1,
-//       firstname: 'John',
-//       lastname: 'Doe',
-//       address: 'Rwanda',
-//       is_Agent: true,
-//       is_Admin: false,
-//     },
-//     process.env.JWT_KEY, {
-//       expiresIn: '1h',
-//     });
+describe('/PROPERTY', () => {
+  before('generate JWT', (done) => {
+    agentToken = jwt.sign({
+      email: 'johndoe@gmail.com',
+      id: 1,
+      firstname: 'John',
+      lastname: 'Doe',
+      address: 'Rwanda',
+      is_Agent: true,
+      is_Admin: false,
+    },
+    process.env.JWT_KEY, {
+      expiresIn: '1h',
+    });
 
-//     userToken = jwt.sign({
-//       email: 'johndoe2@gmail.com',
-//       id: 2,
-//       firstname: 'John',
-//       lastname: 'Doe',
-//       address: 'Rwanda',
-//       is_Agent: false,
-//       is_Admin: false,
-//     },
-//     process.env.JWT_KEY, {
-//       expiresIn: '1h',
-//     });
-//     done();
-//   });
-//   describe('/POST property', () => {
-//     it('should successfully post a property advert', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .attach('image_url',testImage)
-//         .field({
-//           price: 5000000,
-//           city: 'Nairobi',
-//           address: 'kigali1234',
-//           type: '2 bedroom',
-//           state:'Kenya'
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(201);
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    userToken = jwt.sign({
+      email: 'johndoe2@gmail.com',
+      id: 2,
+      firstname: 'John',
+      lastname: 'Doe',
+      address: 'Rwanda',
+      is_Agent: false,
+      is_Admin: false,
+    },
+    process.env.JWT_KEY, {
+      expiresIn: '1h',
+    });
+    done();
+  });
+  describe('/POST property', () => {
+    it.skip('should successfully post a property advert', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .attach('image_url','./server/tests/test.jpg')
+        .field({
+          price: 5000000,
+          city: 'Nairobi',
+          address: 'kigali1234',
+          type: '2 bedroom',
+          state:'Kenya'
+        })
+        .end((err, res) => {
+        //   expect(res.body.error).equals('why are you failing');
+          res.should.have.status(201);
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not post a property advert with forbidden token', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${userToken}`)
-//         .send({
-//           status: 'Available',
-//           price: 5000000,
-//           city: 'Nairobi',
-//           address: 'Kenya',
-//           type: '2 bedroom',
-//           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(403);
-//           expect(res.body.error).equals('ACCESS DENIED! Not an Agent');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not post a property advert with forbidden token', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${userToken}`)
+        .send({
+          status: 'Available',
+          price: 5000000,
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(403);
+          expect(res.body.error).equals('ACCESS DENIED! Not an Agent');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not post a property advert with no token', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', ' ')
-//         .send({
-//           price: 5000000,
-//           state: 'Nairobi',
-//           city: 'Nairobi',
-//           address: 'Kenya',
-//           type: '2 bedroom',
-//           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(401);
-//           expect(res.body.error).equals('ACCESS DENIED! No token provided');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not post a property advert with no token', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', ' ')
+        .send({
+          price: 5000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          expect(res.body.error).equals('ACCESS DENIED! No token provided');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not  post a property advert with missing price', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .send({
-//           price: '',
-//           state: 'Nairobi',
-//           city: 'Nairobi',
-//           address: 'Kenya',
-//           type: '2 bedroom',
-//           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(400);
-//           expect(res.body.error).equals('Price is a required field with no special chars or alphabets');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not  post a property advert with missing price', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: '',
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('Price is a required field with no special chars or alphabets');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not  post a property advert with missing state', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .send({
-//           price: 5000000,
-//           state: '',
-//           city: 'Nairobi',
-//           address: 'Kenya',
-//           type: '2 bedroom',
-//           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(400);
-//           expect(res.body.error).equals('State is a required field with a min of 3 chars and no special chars');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not  post a property advert with missing state', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 5000000,
+          state: '',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('State is a required field with a min of 3 chars and no special chars');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not  post a property advert with missing city', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .send({
-//           price: 5000000,
-//           state: 'Nairobi',
-//           city: '',
-//           address: 'Kenya',
-//           type: '2 bedroom',
-//           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(400);
-//           expect(res.body.error).equals('City is a required field with a min of 3 chars and no special chars or numbers');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not  post a property advert with missing city', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 5000000,
+          state: 'Nairobi',
+          city: '',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('City is a required field with a min of 3 chars and no special chars or numbers');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not  post a property advert with missing address', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .send({
-//           price: 5000000,
-//           state: 'Nairobi',
-//           city: 'Nairobi',
-//           address: '',
-//           type: '2 bedroom',
-//           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(400);
-//           expect(res.body.error).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not  post a property advert with missing address', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 5000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: '',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not  post a property advert with missing image_url', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .send({
-//           price: 5000000,
-//           state: 'Nairobi',
-//           city: 'Nairobi',
-//           address: 'Kenya',
-//           type: '2 bedroom',
-//           image_url: '',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(400);
-//           expect(res.body.error).equals('"image_url" is not allowed');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not  post a property advert with missing image_url', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 5000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: '',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('"image_url" is not allowed');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not  post a property advert with invalid price', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .send({
-//           status: 'Available',
-//           price: 'a large mount',
-//           state: 'Nairobi',
-//           city: 'Nairobi',
-//           address: 'Kenya',
-//           type: '2 bedroom',
-//           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(400);
-//           expect(res.body.error).equals('Price is a required field with no special chars or alphabets');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not  post a property advert with invalid price', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          status: 'Available',
+          price: 'a large mount',
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('Price is a required field with no special chars or alphabets');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not  post a property advert with invalid state', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .send({
-//           status: 'Available',
-//           price: 5000000,
-//           state: '1234',
-//           city: 'Nairobi',
-//           address: 'Kenya',
-//           type: '2 bedroom',
-//           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(400);
-//           expect(res.body.error).equals('State is a required field with a min of 3 chars and no special chars');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not  post a property advert with invalid state', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          status: 'Available',
+          price: 5000000,
+          state: '1234',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('State is a required field with a min of 3 chars and no special chars');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not  post a property advert with invalid city', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .send({
-//           status: 'Available',
-//           price: 5000000,
-//           state: 'Nairobi',
-//           city: '1234',
-//           address: 'Kenya',
-//           type: '2 bedroom',
-//           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(400);
-//           expect(res.body.error).equals('City is a required field with a min of 3 chars and no special chars or numbers');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not  post a property advert with invalid city', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          status: 'Available',
+          price: 5000000,
+          state: 'Nairobi',
+          city: '1234',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('City is a required field with a min of 3 chars and no special chars or numbers');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not  post a property advert with invalid address', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .send({
-//           status: 'Available',
-//           price: 5000000,
-//           state: 'Nairobi',
-//           city: 'Nairobi',
-//           address: '@#%%',
-//           type: '2 bedroom',
-//           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(400);
-//           expect(res.body.error).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not  post a property advert with invalid address', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          status: 'Available',
+          price: 5000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: '@#%%',
+          type: '2 bedroom',
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('Address is a required field with a min of 3 chars and no special chars or numbers');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not  post a property advert with invalid type', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .send({
-//           status: 'Available',
-//           price: 5000000,
-//           state: 'Nairobi',
-//           city: 'Nairobi',
-//           address: 'Kenya',
-//           type: new Array(100).join('a'),
-//           image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(400);
-//           expect(res.body.error).equals('Type is a required field with a min of 3 chars and no special characters');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not  post a property advert with invalid type', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          status: 'Available',
+          price: 5000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: new Array(100).join('a'),
+          image_url: 'https://kinsta.com/wp-content/uploads/2017/04/change-wordpress-url-1.png',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('Type is a required field with a min of 3 chars and no special characters');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not  post a property advert with image_url status', (done) => {
-//       chai.request(app)
-//         .post('/api/v2/property')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .send({
-//           price: 5000000,
-//           state: 'Nairobi',
-//           city: 'Nairobi',
-//           address: 'Kenya',
-//           type: '2 bedroom',
-//           image_url: '@#%%',
-//         })
-//         .end((err, res) => {
-//           res.should.have.status(400);
-//           expect(res.body.error).equals('"image_url" is not allowed');
-//           if (err) return done();
-//           done();
-//         });
-//     });
-//   });
-
+    it('should not  post a property advert with image_url status', (done) => {
+      chai.request(app)
+        .post('/api/v2/property')
+        .set('authorization', `Bearer ${agentToken}`)
+        .send({
+          price: 5000000,
+          state: 'Nairobi',
+          city: 'Nairobi',
+          address: 'Kenya',
+          type: '2 bedroom',
+          image_url: '@#%%',
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          expect(res.body.error).equals('"image_url" is not allowed');
+          if (err) return done();
+          done();
+        });
+    });
+  });
+});
 //   describe('/PATCH property', () => {
 //     it('should successfully update property advert', (done) => {
 //       chai.request(app)

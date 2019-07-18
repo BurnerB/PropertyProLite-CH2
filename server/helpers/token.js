@@ -4,15 +4,14 @@ import Token from "./jwt";
 
 
 class TokenGen {
-  static genToken(_id, email, firstname, lastname, is_Agent, is_Admin, phoneNumber) {
+  static genToken(id, email, firstname, lastname, is_Agent, is_Admin) {
     const tokenDetail = Token.generateToken({
-      _id,
+      id,
       email,
       firstname,
       lastname,
       is_Agent,
       is_Admin,
-      phoneNumber,
     });
     return tokenDetail;
   }

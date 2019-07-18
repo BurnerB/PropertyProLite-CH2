@@ -1,140 +1,31 @@
-/* eslint-disable no-underscore-dangle */
-import db from '../db/adverts';
-import fraud from '../db/fraudulent';
+import pool from '../../config/config';
 
 class PropertyModel {
-  constructor(payload = null) {
-    this.payload = payload;
-    this.result = null;
+  constructor(owner,ownerEmail,status, type, state, city, price, address, image_url) {
+    this.owner = owner;
+    this.ownerEmail = ownerEmail;
+    this.status = status;
+    this.type = type;
+    this.state = state;
+    this.city = city;
+    this.price = price;  
+    this.address = address;
+    this.image_url = image_url;
   }
+
 
   async createProperty() {
-    const property = {
-      _id: this.payload._id,
-      owner: this.payload.owner,
-      ownerEmail:this.payload.ownerEmail,
-      ownerPhoneNumber:this.payload.ownerPhoneNumber,
-      status: this.payload.status,
-      type: this.payload.type,
-      state: this.payload.state,
-      city: this.payload.city,
-      price: this.payload.price,
-      address: this.payload.address,
-      created_on: this.payload.created_on,
-      image_url: this.payload.image_url,
-    };
-    db.push(property);
-    this.result = property;
-    return true;
+    const createPropertyQuery = `INSERT INTO properties(owner,ownerEmail,status, type, state, city, price, address, image_url) VALUES($1, $2, $3, $4, $5 ,$6, $7, $8, $9) returning *`;
+    const createdProperty = await pool.query(createPropertyQuery, [this.owner,this.ownerEmail,this.status,this.type,this.state,this.city,this.price,this.address,this.image_url]);
+    const property = createdProperty.rows[0];
+    return property;
   }
 
-  async updateProperty() {
-    const obj = db.find(o => o._id === parseInt(this.payload._id));
-    if (!obj) {
-      return false;
-    }
-    const newAdvert = {
-      _id: obj._id,
-      owner: obj.owner,
-      status: obj.status,
-      type: this.payload.type,
-      state: this.payload.state,
-      city: this.payload.city,
-      price: obj.price,
-      address: this.payload.address,
-      image_url: this.payload.image_url,
-      created_on: this.payload.created_on,
-    };
-    db.splice(obj._id - 1, 1, newAdvert);
-    this.result = newAdvert;
-    return true;
+  static async findbyEmail(email) {
+    const searchUserQuery = `SELECT * FROM users WHERE email= $1`;
+    const foundUser = await pool.query(searchUserQuery,[email])
+    const user = foundUser.rows[0];
+    return user;
   }
-
-  async markProperty() {
-    const obj = db.find(o => o._id === parseInt(this.payload._id));
-    if (!obj) {
-      return false;
-    }
-    const newAdvert = {
-      _id: obj._id,
-      owner: obj.owner,
-      status: 'Sold',
-      type: obj.type,
-      state: obj.state,
-      city: obj.city,
-      price: obj.price,
-      address: obj.address,
-      image_url: obj.image_url,
-    };
-    db.splice(obj._id - 1, 1, newAdvert);
-    this.result = newAdvert;
-    return true;
-  }
-
-  async delete() {
-    const obj = db.find(o => o._id === parseInt(this.payload._id));
-    if (!obj) {
-      return false;
-    }
-    this.result = obj;
-    db.splice(db.indexOf(obj), 1);
-    return true;
-  }
-
-  async allproperties() {
-    if (db.length === 0) {
-      this.result = [];
-      return false;
-    }
-    this.result = db;
-    return true;
-  }
-
-  async searchbyType() {
-    const { type } = this.payload;
-    const obj = db.filter(o => o.type == type);
-    if (obj.length === 0) {
-      return false;
-    }
-    this.result = obj;
-    return true;
-  }
-
-  async markFraud() {
-    const obj = db.find(o => o._id === parseInt(this.payload.property_id));
-    if (!obj) {
-      return false;
-    }
-    const reported = {
-      _id: this.payload._id,
-      user_id:this.payload.user_id,
-      property_id: this.payload.property_id,
-      created_on: this.payload.created_on,
-      reason: this.payload.reason,
-      description: this.payload.description,
-    };
-    fraud.push(reported);
-    this.result = reported;
-    return true;
-  }
-
-  async findById() {
-    const obj = db.find(o => o._id === parseInt(this.payload._id));
-    if (!obj) {
-      return false;
-    }
-    this.result = obj;
-    return true;
- }
-
- async findByIdfraud() {
-  const obj = fraud.find(o => o._id === parseInt(this.payload._id));
-  if (!obj) {
-    return false;
-  }
-  this.result = obj;
-  return true;
 }
-}
-
 export default PropertyModel;

@@ -5,14 +5,12 @@ import dotenv from 'dotenv';
 import _ from 'lodash';
 import decode from '../helpers/decoded';
 import PropertyModel from '../models/propertyModel';
-import db from '../db/adverts';
 import fraud from '../db/fraudulent';
 import response from '../helpers/responses';
 import uploader from '../helpers/uploader';
 
 
 dotenv.config();
-const created_on = moment().format('MMMM Do YYYY, h:mm:ss a');
 
 class Property {
   static async postProperty(req, res) {
@@ -24,42 +22,40 @@ class Property {
         price,
         address,
       } = req.body;
-
+      
       let image_url;
-      const _id = db.length + 1;
       const status = 'Available';
-      const owner = req.user._id;
-      const ownerEmail = req.user.email;
-      const ownerPhoneNumber = req.user.phoneNumber;
+      const owner = req.user.id;
+      const ownerEmail= req.user.email;
       if (!req.files) {
         return response.handleError(400, 'Image should not be empty', res);
       }
       const image = req.files.image;
       if (process.env.NODE_ENV !== 'test') {
-        image_url = await uploader(image);
+      image_url = await uploader(image);
+      
         if (!image_url) {
-          return response.handleError(400, 'Cannot upload image', res);
+            return response.handleError(400, 'Cannot upload image', res);
         }
       }
 
 
-      const newAdvert = new PropertyModel({
-        _id,
+
+      const newAdvert = new PropertyModel(
         owner,
         ownerEmail,
-        ownerPhoneNumber,
         status,
         type,
         state,
         city,
         price,
         address,
-        created_on,
-        image_url,
-      });
+        image_url
+      );
 
       await newAdvert.createProperty();
-      return response.handleSuccess(201, newAdvert.result, res);
+      return response.handleSuccess(201, newAdvert, res);
+      
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -89,7 +85,7 @@ class Property {
 
       if (!await property.updateProperty() || (user_id !== property.result.owner)) {
         return response.handleError(404, 'You have no advert with that Id', res);
-      }console.log(property.res) 
+      }
       return response.handleSuccess(200, property.result, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);

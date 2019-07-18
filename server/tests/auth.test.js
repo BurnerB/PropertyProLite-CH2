@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 describe('/Authen', () => {
   describe('/POST signup', () => {
   
-    it('should successfully sign up user', (done) => {
+    it.skip('should successfully sign up user', (done) => {
       chai.request(app)
         .post('/api/v2/auth/signup')
         .send({
@@ -169,7 +169,7 @@ describe('/Authen', () => {
         });
     });
 
-    it('should check if the email has already been used to register', (done) => {
+    it.skip('should check if the email has already been used to register', (done) => {
       chai.request(app)
         .post('/api/v2/auth/signup')
         .send({
