@@ -645,8 +645,7 @@ describe('/PROPERTY', () => {
         });
     });
   });
-
-  describe('/PATCH sold-property', () => {
+describe('/PATCH sold-property', () => {
     it('should successfully mark property as sold', (done) => {
       chai.request(app)
         .patch('/api/v2/property/1/sold')
