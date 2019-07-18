@@ -21,6 +21,7 @@ const createTables = async () => {
       CREATE TABLE IF NOT EXISTS properties(
         id serial PRIMARY KEY,
         owner INTEGER REFERENCES users (id) ON DELETE CASCADE,
+        ownerEmail VARCHAR(128),
         city VARCHAR(128) NOT NULL,
         state VARCHAR(128) NOT NULL,
         price DECIMAL NOT NULL,
