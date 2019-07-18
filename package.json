@@ -8,9 +8,9 @@
     "deploy": "./node_modules/.bin/babel-node app.js",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls ",
     "build": "babel server -d build",
-    "create":"node server/db/createTables.js",
-    "drop":"node server/db/dropTables.js",
-    "test":"NODE_ENV=test npm run drop && npm run create && nyc mocha --require @babel/register ./server/tests/*.js  --timeout 150000 --exit"
+    "create": "node server/db/createTables.js",
+    "drop": "node server/db/dropTables.js",
+    "test": "NODE_ENV=test npm run drop && npm run create && nyc mocha --require @babel/register ./server/tests/*.js  --timeout 150000 --exit"
   },
   "engines": {
     "node": "10.15.3",
