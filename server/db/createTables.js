@@ -1,7 +1,7 @@
 const pool = require('../../config/config');
 
 pool.on('connect', () => {
-  console.log('connected to the db');
+  console.log('creating tables..');
 });
 
 const createTables = async () => {
@@ -17,9 +17,23 @@ const createTables = async () => {
         is_Agent BOOL DEFAULT false,
         is_Admin BOOL DEFAULT false,
         created_On TIMESTAMP DEFAULT NOW()
+      );
+      CREATE TABLE IF NOT EXISTS properties(
+        id serial PRIMARY KEY,
+        owner INTEGER REFERENCES users (id) ON DELETE CASCADE,
+        city VARCHAR(128) NOT NULL,
+        state VARCHAR(128) NOT NULL,
+        price DECIMAL NOT NULL,
+        address VARCHAR(128) NOT NULL,
+        type VARCHAR(128) NOT NULL,
+        status VARCHAR(128) NOT NULL,
+        image_url VARCHAR(120),
+        created_On TIMESTAMP DEFAULT NOW()
       )`;
 
   await pool.query(queryText)
+  console.log('done here');
+  
   await pool.end();
 
 }
