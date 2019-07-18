@@ -41,5 +41,12 @@ class PropertyModel {
     const {rows} = await pool.query(query,Updates);
     return rows[0];
   }
+
+  static async markProperty(id) {
+    const query = 'UPDATE properties SET status = $1 WHERE id = $2 returning *';
+    const values = ['SOLD',id];
+    const { rows } = await pool.query(query,values)
+    return rows;
+  }
 }
 export default PropertyModel;

@@ -84,15 +84,13 @@ class Property {
 
       const user_id = decoded._id;
 
-      const _id = req.params.property_id;
+      const id = req.params.property_id;
 
-      const property = new PropertyModel({
-        _id,
-      });
+      const property = await PropertyModel.markProperty(id)
 
-      if (!await property.markProperty() || (user_id !== property.result.owner)) {
+      if (!property  || (user_id !== property.owner)) {
         return response.handleError(404, 'You have no advert with that Id', res);
-      } return response.handleSuccess(200, property.result, res);
+      } return response.handleSuccess(200, property, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
