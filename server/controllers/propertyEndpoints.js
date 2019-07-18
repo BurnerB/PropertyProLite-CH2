@@ -102,15 +102,13 @@ class Property {
 
       const user_id = decoded._id;
 
-      const _id = req.params.property_id;
+      const id = req.params.property_id;
 
-      const property = new PropertyModel({
-        _id,
-      });
+      const property = await PropertyModel.delete(id)
 
-      if (!await property.delete() || (user_id !== property.result.owner)) {
+      if ( !property|| (user_id !== property.owner)) {
         return response.handleError(404, 'You have no advert with that Id', res);
-      } return response.success(200, 'successfully deleted ', res);
+      }return response.success(200, 'successfully deleted ', res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }

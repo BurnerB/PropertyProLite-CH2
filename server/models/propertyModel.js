@@ -48,5 +48,12 @@ class PropertyModel {
     const { rows } = await pool.query(query,values)
     return rows;
   }
+
+  static async delete(id) {
+    const text = 'DELETE FROM properties WHERE id =$1';
+    const values = [id];
+    const { rows } = await pool.query(text, values);
+    return rows;
+}
 }
 export default PropertyModel;
