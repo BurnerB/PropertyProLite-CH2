@@ -7,7 +7,7 @@ process.env.NODE_ENV = "development"
   pool = new Pool({
     user: process.env.USER,
     host: process.env.HOST,
-    database: "propertypro",
+    database: process.env.DATABASE,
     password: 'password',
     port: process.env.PORT,
   });
