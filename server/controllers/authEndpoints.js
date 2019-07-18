@@ -15,7 +15,6 @@ class Authentication {
         firstname,
         lastname,
         email,
-        password,
         address,
         is_Agent,
       } = req.body;
@@ -23,8 +22,9 @@ class Authentication {
       const user1 = await UserModel.findbyEmail(email);
 
       if(!user1){
+        const is_Admin = false;
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        const hashedPassword = await bcrypt.hash(req.body.password, salt);
         const newUser = new UserModel(
           firstname,
           lastname,
@@ -32,14 +32,16 @@ class Authentication {
           hashedPassword,
           address,
           is_Agent,
+          is_Admin
         );
         const user = await newUser.registerUser();
 
         const token = Token.genToken(user.id, user.email, user.firstname, user.lastname, user.is_Agent);
         user["token"]=token;
 
-        return response.authsuccess(201, 'successfully created user', 
-                                        _.pick(user,['id','email', 'firstname','lastname','phoneNumber','address', 'is_Admin','is_Agent','token']), res);
+        const{ password ,...noA} = user;
+
+        return response.authsuccess(201, 'successfully created user', noA , res);
         }
       return response.handleError(409, 'The email has already been used to register', res);
     
@@ -52,13 +54,13 @@ class Authentication {
 		try {
 			const { email, password } = req.body;
 			const user = await UserModel.findbyEmail(email);
-
 			if (user) {
 				if (bcrypt.compareSync(password, user.password)) {
-            const token = Token.genToken(user.id, user.email, user.firstname, user.lastname, user.is_Agent);
+            const token = Token.genToken(user.id, user.email, user.firstname, user.lastname, user.is_agent,user.is_admin);
             user["token"]=token;
-            return response.authsuccess(200, 'successly logged in', 
-                                        _.pick(user,['id','email', 'firstname','lastname','phoneNumber','address', 'is_Admin','is_Agent','token']), res);
+
+            const{ password ,...noA} = user;
+            return response.authsuccess(200, 'successfully created user', noA,res);
         }
         return response.handleError(401, 'Incorrect password Email combination', res);
 
