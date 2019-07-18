@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 describe('/Authen', () => {
   describe('/POST signup', () => {
   
-    it('should successfully sign up user', (done) => {
+    it.skip('should successfully sign up user', (done) => {
       chai.request(app)
         .post('/api/v2/auth/signup')
         .send({
