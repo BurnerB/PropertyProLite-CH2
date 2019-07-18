@@ -2,7 +2,7 @@ const pool = require('../../config/config');
 
 const dropTables = async () => {
   try{
-    const queryText = 'DROP TABLE IF EXISTS users';
+    const queryText = 'DROP TABLE IF EXISTS users,properties CASCADE';
     await pool.query(queryText);
     await pool.end();
   }catch{
@@ -10,4 +10,7 @@ const dropTables = async () => {
   }
 }
 
-dropTables();
+module.exports = {dropTables}
+
+// dropTables();
+require('make-runnable');
