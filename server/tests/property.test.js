@@ -645,53 +645,54 @@ describe('/PROPERTY', () => {
         });
     });
   });
-describe('/PATCH sold-property', () => {
-    it('should successfully mark property as sold', (done) => {
-      chai.request(app)
-        .patch('/api/v2/property/1/sold')
-        .set('authorization', `Bearer ${agentToken}`)
-        .end((err, res) => {
-          res.should.have.status(200);
-          if (err) return done();
-          done();
-        });
-    });
 
-    it('should not mark a property advert with no token', (done) => {
-      chai.request(app)
-        .patch('/api/v2/property/1/sold')
-        .set('authorization', ' ')
-        .end((err, res) => {
-          res.should.have.status(401);
-          expect(res.body.error).equals('ACCESS DENIED! No token provided');
-          if (err) return done();
-          done();
-        });
-    });
+  describe('/PATCH sold-property', () => {
+      it('should successfully mark property as sold', (done) => {
+        chai.request(app)
+          .patch('/api/v2/property/1/sold')
+          .set('authorization', `Bearer ${agentToken}`)
+          .end((err, res) => {
+            res.should.have.status(200);
+            if (err) return done();
+            done();
+          });
+      });
 
-    it('should not mark a property advert with forbidden token', (done) => {
-      chai.request(app)
-        .patch('/api/v2/property/1/sold')
-        .set('authorization', `Bearer ${userToken}`)
-        .end((err, res) => {
-          res.should.have.status(403);
-          expect(res.body.error).equals('ACCESS DENIED! Not an Agent');
-          if (err) return done();
-          done();
-        });
-    });
+      it('should not mark a property advert with no token', (done) => {
+        chai.request(app)
+          .patch('/api/v2/property/1/sold')
+          .set('authorization', ' ')
+          .end((err, res) => {
+            res.should.have.status(401);
+            expect(res.body.error).equals('ACCESS DENIED! No token provided');
+            if (err) return done();
+            done();
+          });
+      });
 
-    it('should not mark a property advert if no id exists', (done) => {
-      chai.request(app)
-        .patch('/api/v2/property/111/sold')
-        .set('authorization', `Bearer ${agentToken}`)
-        .end((err, res) => {
-          res.should.have.status(404);
-          expect(res.body.error).equals('You have no advert with that Id');
-          if (err) return done();
-          done();
-        });
-    });
+      it('should not mark a property advert with forbidden token', (done) => {
+        chai.request(app)
+          .patch('/api/v2/property/1/sold')
+          .set('authorization', `Bearer ${userToken}`)
+          .end((err, res) => {
+            res.should.have.status(403);
+            expect(res.body.error).equals('ACCESS DENIED! Not an Agent');
+            if (err) return done();
+            done();
+          });
+      });
+
+      it('should not mark a property advert if no id exists', (done) => {
+        chai.request(app)
+          .patch('/api/v2/property/111/sold')
+          .set('authorization', `Bearer ${agentToken}`)
+          .end((err, res) => {
+            res.should.have.status(404);
+            expect(res.body.error).equals('You have no advert with that Id');
+            if (err) return done();
+            done();
+          });
+      });
   });
 });
 
