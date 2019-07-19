@@ -143,15 +143,13 @@ class Property {
 
   static async specificAdvert(req, res) {
     try {
-      const _id = req.params.property_id;
-      const property = new PropertyModel({
-        _id,
-      });
+      const id = req.params.property_id;
+      const property = await PropertyModel.findbyId(id);
 
-      if (!await property.findById()) {
+      if (!property) {
         return response.handleError(404, 'No property with that id found', res);
       } 
-      return response.handleSuccess(200, property.result, res);
+      return response.handleSuccess(200, property, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
