@@ -116,11 +116,12 @@ class Property {
 
   static async allAdverts(req, res) {
     try {
-      const property = await PropertyModel.allproperties();
-      if (!property) {
+      const properties = await PropertyModel.allproperties();
+      console.log(properties);
+      if (!properties) {
         return response.handleError(404, 'No adverts found', res);
       }
-      return response.handleSuccess(200, property, res);
+      return response.handleSuccess(200, properties, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
