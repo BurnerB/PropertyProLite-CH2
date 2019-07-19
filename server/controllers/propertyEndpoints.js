@@ -113,10 +113,13 @@ class Property {
       const user_id = decoded._id;
 
       const id = req.params.property_id;
-
+      if(!PropertyModel.findbyId(id)){
+        return response.handleError(404, 'You have no advert with that Id', res);
+      }
+      
       const property = await PropertyModel.delete(id)
 
-      if ( !property|| (user_id !== property.owner)) {
+      if (user_id !== property.owner) {
         return response.handleError(404, 'You have no advert with that Id', res);
       }return response.success(200, 'successfully deleted ', res);
     } catch (e) {
@@ -145,7 +148,7 @@ class Property {
       if (!Type) {
         return response.handleError(404, 'No property adverts of that type found', res);
       }
-      return response.handleSuccess(200,'succesful', Type, res);
+      return response.handleSuccess(200,'successful', Type, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -159,7 +162,7 @@ class Property {
       if (!property) {
         return response.handleError(404, 'No property with that id found', res);
       } 
-      return response.handleSuccess(200, 'successfull'.property, res);
+      return response.handleSuccess(200, 'successful'.property, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
