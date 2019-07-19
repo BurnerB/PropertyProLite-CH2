@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
-import moment from 'moment';
 import dotenv from 'dotenv';
 import _ from 'lodash';
 import decode from '../helpers/decoded';
@@ -8,9 +7,11 @@ import PropertyModel from '../models/propertyModel';
 import fraud from '../db/fraudulent';
 import response from '../helpers/responses';
 import uploader from '../helpers/uploader';
+import pool from '../../config/config';
 
 
 dotenv.config();
+const status = 'Available';
 
 class Property {
   static async postProperty(req, res) {
@@ -24,7 +25,7 @@ class Property {
       } = req.body;
       
       let image_url;
-      const status = 'Available';
+      
       const owner = req.user.id;
       const ownerEmail= req.user.email;
       if (!req.files) {
@@ -39,8 +40,6 @@ class Property {
         }
       }
 
-
-
       const newAdvert = new PropertyModel(
         owner,
         ownerEmail,
@@ -52,9 +51,18 @@ class Property {
         address,
         image_url
       );
+      
 
-      await newAdvert.createProperty();
-      return response.handleSuccess(201, newAdvert, res);
+      const newProperty = await newAdvert.createProperty();
+    //  const check = `SELECT * from  properties`
+    //  pool.query(check,(err,result)=>{
+    //   result.rows.forEach((property) => {
+    //     if(property.address === address || property.type === type) {
+    //       return response.handleError(409, 'Property already posted', res);
+    //     } 
+    //    });
+    //  })
+      return response.handleSuccess(201,`successfully created ${type} property advert`,newProperty, res);
       
     } catch (e) {
       return response.catchError(500, e.toString(), res);
@@ -72,7 +80,7 @@ class Property {
       if (!property || user_id !== property.owner) {
         return response.handleError(404, 'You have no advert with that Id', res);
       }
-      return response.handleSuccess(200, property, res);
+      return response.handleSuccess(200, 'success',property, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -86,13 +94,16 @@ class Property {
 
       const id = req.params.property_id;
 
-      const property = await PropertyModel.markProperty(id)
-
+      const property = await PropertyModel.markProperty(id);
       if (!property  || (user_id !== property.owner)) {
         return response.handleError(404, 'You have no advert with that Id', res);
-      } return response.handleSuccess(200, property, res);
+      }
+      if(property[0].status !== "Available"){
+        return response.handleError(400, 'Property already marked sold', res);
+      }
+       return response.handleSuccess(200,'successfully marked SOLD', property, res);
     } catch (e) {
-      return response.catchError(500, e.toString(), res);
+      return response.handleError(404, 'You have no advert with that Id', res);
     }
   }
 
@@ -120,7 +131,7 @@ class Property {
       if (!properties) {
         return response.handleError(404, 'No adverts found', res);
       }
-      return response.handleSuccess(200, properties, res);
+      return response.handleSuccess(200, 'successful',properties, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -135,7 +146,7 @@ class Property {
       if (!Type) {
         return response.handleError(404, 'No property adverts of that type found', res);
       }
-      return response.handleSuccess(200, Type, res);
+      return response.handleSuccess(200,'succesful', Type, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -149,7 +160,7 @@ class Property {
       if (!property) {
         return response.handleError(404, 'No property with that id found', res);
       } 
-      return response.handleSuccess(200, property, res);
+      return response.handleSuccess(200, 'successfull'.property, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
