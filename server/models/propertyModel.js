@@ -61,6 +61,13 @@ class PropertyModel {
     return rows;
   }
 
+  static async findbyId(id) {
+    const searchUserQuery = `SELECT * FROM users WHERE id= $1`;
+    const foundUser = await pool.query(searchUserQuery,[id])
+    const user = foundUser.rows[0];
+    return user;
+  }
+
 
 }
 export default PropertyModel;
