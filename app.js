@@ -8,7 +8,7 @@ import errorhandler from './server/helpers/errorhandler'
 import response from './server/helpers/responses';
 
 const app = express();
-const port = process.env.NODE_PORT || 5000;
+const port = process.env.PORT || 5000;
 
 // process.env.test=null
 // process.env="development"
