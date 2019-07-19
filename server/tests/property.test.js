@@ -822,28 +822,28 @@ describe('/PROPERTY', () => {
 //     });
 //   });
 
-//   describe('/GET specific type', () => {
-//     it('should return an error no advert of that type exists', (done) => {
-//       chai.request(app)
-//         .get('/api/v2/property?type=2 bedrom')
-//         .end((err, res) => {
-//           expect(res.body.error).equals('No property adverts of that type found');
-//           res.should.have.status(404);
-//           if (err) return done();
-//           done();
-//         });
-//     });
+  describe('/GET specific type', () => {
+    it('should return an error no advert of that type exists', (done) => {
+      chai.request(app)
+        .get('/api/v2/property?type=2 bedrom')
+        .end((err, res) => {
+          expect(res.body.error).equals('No property adverts of that type found');
+          res.should.have.status(404);
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should successfully return an adverts of that type exists', (done) => {
-//       chai.request(app)
-//         .get('/api/v2/property?type=2 bedroom')
-//         .end((err, res) => {
-//           res.should.have.status(200);
-//           if (err) return done();
-//           done();
-//         });
-//     });
-//   });
+    it('should successfully return an adverts of that type exists', (done) => {
+      chai.request(app)
+        .get('/api/v2/property?type=2 bedroom')
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
+  });
   
   describe('/DELETE property', () => {
     it('should successfully delete a  property advert', (done) => {
