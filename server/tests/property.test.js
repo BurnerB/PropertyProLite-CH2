@@ -694,7 +694,6 @@ describe('/PROPERTY', () => {
           });
       });
   });
-});
 
 //   describe('/PATCH property fraudulent', () => {
 //     it('should mark property as fraudulent', (done) => {
@@ -846,67 +845,66 @@ describe('/PROPERTY', () => {
 //     });
 //   });
   
-//   describe('/DELETE property', () => {
-//     it('should successfully delete a  property advert', (done) => {
-//       chai.request(app)
-//         .delete('/api/v2/property/1')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .end((err, res) => {
-//           res.should.have.status(200);
-//           if (err) return done();
-//           done();
-//         });
-//     });
+  describe('/DELETE property', () => {
+    it('should successfully delete a  property advert', (done) => {
+      chai.request(app)
+        .delete('/api/v2/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .end((err, res) => {
+          res.should.have.status(200);
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not delete property advert with no token', (done) => {
-//       chai.request(app)
-//         .delete('/api/v2/property/1')
-//         .set('authorization', ' ')
-//         .end((err, res) => {
-//           res.should.have.status(401);
-//           expect(res.body.error).equals('ACCESS DENIED! No token provided');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not delete property advert with no token', (done) => {
+      chai.request(app)
+        .delete('/api/v2/property/1')
+        .set('authorization', ' ')
+        .end((err, res) => {
+          res.should.have.status(401);
+          expect(res.body.error).equals('ACCESS DENIED! No token provided');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not delete a property advert with forbidden token', (done) => {
-//       chai.request(app)
-//         .delete('/api/v2/property/1')
-//         .set('authorization', `Bearer ${userToken}`)
-//         .end((err, res) => {
-//           res.should.have.status(403);
-//           expect(res.body.error).equals('ACCESS DENIED! Not an Agent');
-//           if (err) return done();
-//           done();
-//         });
-//     });
+    it('should not delete a property advert with forbidden token', (done) => {
+      chai.request(app)
+        .delete('/api/v2/property/1')
+        .set('authorization', `Bearer ${userToken}`)
+        .end((err, res) => {
+          res.should.have.status(403);
+          expect(res.body.error).equals('ACCESS DENIED! Not an Agent');
+          if (err) return done();
+          done();
+        });
+    });
 
-//     it('should not delete a property advert if no id exists', (done) => {
-//       chai.request(app)
-//         .delete('/api/v2/property/1')
-//         .set('authorization', `Bearer ${agentToken}`)
-//         .end((err, res) => {
-//           expect(res.body.error).equals('You have no advert with that Id');
-//           res.should.have.status(404);
-//           if (err) return done();
-//           done();
-//         });
-//     });
-//   });
+    it('should not delete a property advert if no id exists', (done) => {
+      chai.request(app)
+        .delete('/api/v2/property/1')
+        .set('authorization', `Bearer ${agentToken}`)
+        .end((err, res) => {
+          expect(res.body.error).equals('You have no advert with that Id');
+          res.should.have.status(404);
+          if (err) return done();
+          done();
+        });
+    });
+  });
 
-//   describe('/GET all properties', () => {
-//     it('should return an error message if no adverts exist', (done) => {
-//       chai.request(app)
-//         .get('/api/v2/properties')
-//         .end((err, res) => {
-//           expect(res.body.error).equals('No adverts found');
-//           res.should.have.status(404);
-//           if (err) return done();
-//           done();
-//         });
-//     });
-//   });
-
+  describe('/GET all properties', () => {
+    it('should return an error message if no adverts exist', (done) => {
+      chai.request(app)
+        .get('/api/v2/properties')
+        .end((err, res) => {
+          expect(res.body.error).equals('No adverts found');
+          res.should.have.status(404);
+          if (err) return done();
+          done();
+        });
+    });
+  });
   
-// });
+});

@@ -116,11 +116,11 @@ class Property {
 
   static async allAdverts(req, res) {
     try {
-      const property = await PropertyModel.allproperties();
-      if (!property) {
+      const properties = await PropertyModel.allproperties();
+      if (!properties) {
         return response.handleError(404, 'No adverts found', res);
       }
-      return response.handleSuccess(200, property, res);
+      return response.handleSuccess(200, properties, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -129,13 +129,13 @@ class Property {
   static async specificType(req, res) {
     try {
       const { type } = req.query;
-      const Type = new PropertyModel({ type });
+      const Type = await PropertyModel.searchbyType(type);
 
       // return res.send(req.query)
-      if (!await Type.searchbyType()) {
+      if (!Type) {
         return response.handleError(404, 'No property adverts of that type found', res);
       }
-      return response.handleSuccess(200, Type.result, res);
+      return response.handleSuccess(200, Type, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
