@@ -45,7 +45,7 @@ class PropertyModel {
   static async markProperty(id) {
     const query = 'UPDATE properties SET status = $1 WHERE id = $2 returning *';
     const values = ['SOLD',id];
-    const { rows } = await pool.query(query,values)
+    const { rows } = await pool.query(query,values);
     return rows;
   }
 
