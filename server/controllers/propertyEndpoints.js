@@ -97,7 +97,6 @@ class Property {
       const property = await PropertyModel.markProperty(id);
       if (!property  || (user_id !== property.owner)) {
         return response.handleError(404, 'You have no advert with that Id', res);
-      }
       // if(property[0].status !== "Available"){
       //   return response.handleError(400, 'Property already marked sold', res);
       }
