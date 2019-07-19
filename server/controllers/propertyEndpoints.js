@@ -144,11 +144,10 @@ class Property {
       const { type } = req.query;
       const Type = await PropertyModel.searchbyType(type);
 
-      // return res.send(req.query)
       if (!Type) {
         return response.handleError(404, 'No property adverts of that type found', res);
       }
-      return response.handleSuccess(200,'successful', Type, res);
+      return response.handleSuccess(200,'Successful', Type, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
@@ -162,7 +161,7 @@ class Property {
       if (!property) {
         return response.handleError(404, 'No property with that id found', res);
       } 
-      return response.handleSuccess(200, 'successful'.property, res);
+      return response.handleSuccess(200, 'successful',property, res);
     } catch (e) {
       return response.catchError(500, e.toString(), res);
     }
