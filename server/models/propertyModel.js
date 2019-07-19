@@ -54,6 +54,13 @@ class PropertyModel {
     const values = [id];
     const { rows } = await pool.query(text, values);
     return rows;
-}
+  }
+
+  static async searchbyType(type) {
+    const { rows } = await pool.query('SELECT * FROM properties WHERE type=$1', [type]);
+    return rows;
+  }
+
+
 }
 export default PropertyModel;
