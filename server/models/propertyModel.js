@@ -31,7 +31,7 @@ class PropertyModel {
   static async allproperties(){
     const query = `SELECT * FROM properties`;
     const adverts = await pool.query(query);
-    const allAdverts = adverts.rows[0];
+    const allAdverts = adverts.rows;
     return allAdverts;
   }
 
