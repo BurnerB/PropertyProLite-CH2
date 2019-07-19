@@ -875,6 +875,7 @@ describe('/PROPERTY', () => {
         .delete('/api/v2/property/cebice')
         .set('authorization', `Bearer ${agentToken}`)
         .end((err, res) => {
+          
           res.should.have.status(500);
           if (err) return done();
           done();
