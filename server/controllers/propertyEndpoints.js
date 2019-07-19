@@ -98,8 +98,8 @@ class Property {
       if (!property  || (user_id !== property.owner)) {
         return response.handleError(404, 'You have no advert with that Id', res);
       }
-      if(property[0].status !== "Available"){
-        return response.handleError(400, 'Property already marked sold', res);
+      // if(property[0].status !== "Available"){
+      //   return response.handleError(400, 'Property already marked sold', res);
       }
        return response.handleSuccess(200,'successfully marked SOLD', property, res);
     } catch (e) {
