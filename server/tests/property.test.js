@@ -809,18 +809,18 @@ describe('/PROPERTY', () => {
 //     });
 //   });
 
-//   describe('/GET specific property', () => {
-//     it('should return an error no advert of that id exists', (done) => {
-//       chai.request(app)
-//         .get('/api/v2/property/2')
-//         .end((err, res) => {
-//           res.should.have.status(404);
-//           expect(res.body.error).equals('No property with that id found');
-//           if (err) return done();
-//           done();
-//         });
-//     });
-//   });
+  describe('/GET specific property', () => {
+    it('should return an error no advert of that id exists', (done) => {
+      chai.request(app)
+        .get('/api/v2/property/2')
+        .end((err, res) => {
+          res.should.have.status(404);
+          expect(res.body.error).equals('No property with that id found');
+          if (err) return done();
+          done();
+        });
+    });
+  });
 
   describe('/GET specific type', () => {
     it('should return an error no advert of that type exists', (done) => {
